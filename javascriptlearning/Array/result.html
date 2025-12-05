@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Checker</title>
+</head>
+<body>
+
+    <label>Student Name:</label>
+    <input type="text" id="Studentname"><br><br>
+
+    <label>Course:</label>
+    <input type="text" id="course"><br><br>
+
+    <label>Internal Marks (0-40):</label>
+    <input type="number" id="internalmarks"><br><br>
+
+    <label>Final Marks (0-60):</label>
+    <input type="number" id="finalmarks"><br><br>
+
+    <label>Attendance (%):</label>
+    <input type="number" id="attendance"><br><br>
+
+    <button id="CheckResult">Check Result</button>
+
+    <h2>Result</h2>
+    <p id="result"></p>
+
+<script>
+document.getElementById("CheckResult").addEventListener("click", () => {
+
+    let Studentname = document.getElementById("Studentname").value.toUpperCase();
+    let course = document.getElementById("course").value.toUpperCase();
+    let internalmarks = parseFloat(document.getElementById("internalmarks").value);
+    let finalmarks = parseFloat(document.getElementById("finalmarks").value);
+    let attendance = parseFloat(document.getElementById("attendance").value);
+
+    let output = "";
+
+    // EMPTY CHECK
+    if (!Studentname || !course || isNaN(internalmarks) || isNaN(finalmarks) || isNaN(attendance)) {
+        document.getElementById("result").innerHTML = "Please fill all fields correctly.";
+        return;
+    }
+
+    // INVALID MARKS CHECK
+    if (
+        internalmarks < 0 || internalmarks > 40 ||
+        finalmarks < 0 || finalmarks > 60 ||
+        attendance < 0 || attendance > 100
+    ) {
+        document.getElementById("result").innerHTML = "Please enter valid marks and attendance.";
+        return;
+    }
+
+    // ATTENDANCE RULE
+    if (attendance < 75) {
+        document.getElementById("result").innerHTML = "FAIL (Short Attendance)";
+        return;
+    }
+
+    // TOTAL MARKS
+    let total = internalmarks + finalmarks;
+
+    // BONUS RULE
+    let bonus = 0;
+
+    if (course === "IT") bonus = 5;
+    else if (course === "CS") bonus = 4;
+    else if (course === "CIVIL") bonus = 3;
+    else {
+        document.getElementById("result").innerHTML = "Invalid Course.";
+        return;
+    }
+
+    let finalTotal = total + bonus;
+
+    // GRADE CALCULATION
+    let grade = "";
+
+    if (finalTotal >= 90) grade = "A+";
+    else if (finalTotal >= 80) grade = "A";
+    else if (finalTotal >= 70) grade = "B+";
+    else if (finalTotal >= 60) grade = "B";
+    else if (finalTotal >= 50) grade = "C";
+    else grade = "F";
+
+    let finalResult = (grade === "F") ? "FAIL" : "PASS";
+
+    // OUTPUT
+    output += `Student Name: ${Studentname}<br>`;
+    output += `Course: ${course}<br>`;
+    output += `Total (Before Bonus): ${total}<br>`;
+    output += `Bonus: ${bonus}<br>`;
+    output += `Final Total: ${finalTotal}<br>`;
+    output += `Grade: ${grade}<br>`;
+    output += `Final Result: ${finalResult}<br>`;
+
+    document.getElementById("result").innerHTML = output;
+});
+</script>
+
+</body>
+</html>
