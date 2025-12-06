@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Salary Tax Calculator</title>
+</head>
+<body>
+<h2> Salary Tax Calculator</h2>
+
+<label> Name:</label>
+<input type="text" id="name"><br>
+
+<label> Monthly Salary:</label>
+<input type="number" id="salary"><br>
+
+<label> Bonus:</label>
+<input type="number" id="bonus"><br>
+
+<label> Tax Category: </label>
+<select id="category">
+<option value="">--Selcct</option>
+<option value="A">A(10%)</option>
+<option value="B">B(15%)</option>
+<option valude="C">C(20%)</option>
+</select><br><br>
+
+<button id="calculate">Calculate Tax</button>
+
+<h3Result</h3>
+<p id="output"></p>
+
+<script>
+document.getElementById("calculate").addEventListener("click",() => {
+let name= document.getElementById("name").value;
+  let salary=parseFloat(document.getElementById("salary").value);
+  let bonus= parseFloat(document.getElementById("bonus").value);
+  let category=document.getElementById("category").value);
+
+  if(!name || isNan(salary) ||isNan(bonus) ||!category) {
+    document.getElementById("output").innerHTML ="Please enter all valid deatils");
+  return;
+  }
+
+if(salary<0 || bonus<0) {
+  document.getElementById("output").innerHTML="salary and bonus should be zero");
+  return;
+}
+
+                                                      let yearly =(salary *12)+bonus;
+  let taxRate =0;
+  if(category==="A") taxRate=0.10;
+  else if(category==="B")
+    taxRate=0.15;
+  else if(category==="C")
+    taxRate=0.20;
+
+      let tax=yearlyIncome *taxRate;
+  if(yearlyIncome>2000000) {
+    let luxuryTax= yearlyIncome*0.05;
+    tax +=luxuryTax;
+  }
+
+  let netIncome = yearlyIncome - tax;
+
+  document.getElementById("output").innerHTML =`
+  name: ${name}<br>
+  annual income:Rs.${yearIncome}<br>
+  totaltax:Rs.${tax}<br>
+  netannuanl:Rs.${category}<br>
+  `;
+});
+</script>
+  </body>
+</html>
+  
+
+  
+  
