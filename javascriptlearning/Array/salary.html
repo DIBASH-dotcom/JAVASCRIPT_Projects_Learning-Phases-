@@ -20,7 +20,7 @@
 <option value="">--Selcct</option>
 <option value="A">A(10%)</option>
 <option value="B">B(15%)</option>
-<option valude="C">C(20%)</option>
+<option value="C">C(20%)</option>
 </select><br><br>
 
 <button id="calculate">Calculate Tax</button>
@@ -36,7 +36,7 @@ let name= document.getElementById("name").value;
   let bonus= parseFloat(document.getElementById("bonus").value);
   let category=document.getElementById("category").value;
 
-  if(!name || isNan(salary) ||isNan(bonus) ||!category) {
+  if(!name || isNaN(salary) ||isNaN(bonus) ||!category) {
     document.getElementById("output").innerHTML ="Please enter all valid deatils";
   return;
   }
@@ -46,7 +46,7 @@ if(salary<0 || bonus<0) {
   return;
 }
 
-                                                      let yearly =(salary *12)+bonus;
+                                                      let yearlyIncome =(salary *12)+bonus;
   let taxRate =0;
   if(category==="A") taxRate=0.10;
   else if(category==="B")
@@ -64,9 +64,9 @@ if(salary<0 || bonus<0) {
 
   document.getElementById("output").innerHTML =`
   name: ${name}<br>
-  annual income:Rs.${yearIncome}<br>
+  annual income:Rs.${yearlyIncome}<br>
   totaltax:Rs.${tax}<br>
-  netannuanl:Rs.${category}<br>
+  netannuanl:Rs.${netIncome}<br>
   `;
 });
 </script>
