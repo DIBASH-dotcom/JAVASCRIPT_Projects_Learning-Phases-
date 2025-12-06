@@ -25,23 +25,24 @@
 
 <button id="calculate">Calculate Tax</button>
 
-<h3Result</h3>
+<h3>Result</h3>
 <p id="output"></p>
 
 <script>
 document.getElementById("calculate").addEventListener("click",() => {
+
 let name= document.getElementById("name").value;
   let salary=parseFloat(document.getElementById("salary").value);
   let bonus= parseFloat(document.getElementById("bonus").value);
-  let category=document.getElementById("category").value);
+  let category=document.getElementById("category").value;
 
   if(!name || isNan(salary) ||isNan(bonus) ||!category) {
-    document.getElementById("output").innerHTML ="Please enter all valid deatils");
+    document.getElementById("output").innerHTML ="Please enter all valid deatils";
   return;
   }
 
 if(salary<0 || bonus<0) {
-  document.getElementById("output").innerHTML="salary and bonus should be zero");
+  document.getElementById("output").innerHTML="salary and bonus should be zero";
   return;
 }
 
