@@ -1,80 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Report Generator</title>
 </head>
 <body>
- <h1> Grade Calculator</h1> 
- 
- 
- <label> Subject 1:</label>
- <input type="number" id="s1"><br><br>
+<h1>Student Report Generator</h1>
 
- <label>Subject2:</label>
- <input type="number" id="s2"><br><br>
+<label>Student Name:</label>
+<input type="text" id="name" placeholder="Enter Name"><br><br>
 
- <label>Subject 3</label>
- <input type="number" id="s3"><br><br>
+<label>Course Name:</label>
+<input type="text" id="course" placeholder="Enter Course"><br><br>
 
- <label>Subject 4:</label>
- <input type="number" id="s4"><br><br>
+<label>Attendance Percentage (%):</label>
+<input type="number" id="attendance" placeholder="Enter Attendance"><br><br>
 
- <label>Subject 5:</label>
- <input type="number" id="s5"><br><br>
+<label>Enter Marks (0-100):</label>
+<input type="number" id="marks" placeholder="Enter Marks"><br><br>
 
- <button onclick="calculate()">Check Result</button>
+<button onclick="generateReport()">Generate Report</button>
 
- <h2> Result</h2>
- <p id="result"></p>
+<h2>Report:</h2>
+<p id="result"></p>
 
- <script>
+<script>
+function generateReport() {
+    let name = document.getElementById("name").value.trim();
+    let course = document.getElementById("course").value.trim();
+    let attendance = document.getElementById("attendance").value.trim();
+    let marks = document.getElementById("marks").value.trim();
+    let result = document.getElementById("result");
 
-    function calculate(){
-        let marks1 = parseInt(document.getElementById("s1").value);
-        let marks2=parseInt(document.getElementById("s2").value);
-        let marks3= parseInt(document.getElementById("s3").value);
-        let marks4=parseInt(document.getElementById("s4").value);
-        let marks5 =parseInt(document.getElementById("s5").value);
+    let missing = [];
+    if(name === "") missing.push("Name");
+    if(course === "") missing.push("Course");
+    if(attendance === "") missing.push("Attendance");
+    if(marks === "") missing.push("Marks");
 
-if(isNaN(marks1) || isNaN(marks2) || isNaN(marks3) || isNaN(marks4) || isNaN(marks5)) {
-    document.getElementById("result").innerHTML="Please Enter vaild deatils";
-    document.getElementById("result").style.color="red";
-    return;
-}
-        if(marks1<40 ||marks2<40|| marks3<40 || marks4<40 || marks5<40) {
-            document.getElementById("result").innerHTML="Fail(Low Marks)";
-            document.getElementById("result").style.color="red";
-            return;
-        }
-
-        let total = marks1 + marks2 + marks3 + marks4 + marks5;
-        let percentage = total/5;
-
-        let grade ="";
-        if(percentage>= 90)
-        grade ="A+";
-    else if(percentage>=80)
-    grade="A";
-else if(percentage>=70)
-grade="B+";
-else if(percentage>=60)
-grade="B";
-else if(percentage>=50)
-grade="C";
-else grade="F";
-
-let finalresult = (grade==="F") ? "Fail" :"Pass";
-
-document.getElementById("result").innerHTML=`
-Total Marks : ${total} <br>
-Percentage : ${percentage}% <br>
-Grade : ${grade}<br>
-Final Result : ${finalresult}
-    `;
-    document.getElementById("result").style.color=(finalresult ==="Fail")?"red" :"blue";
+    if(missing.length > 0){
+        result.innerHTML = "Please fill the following fields: " + missing.join(", ");
+        result.style.color = "red";
+        return;
     }
- </script>
+
+    let att = parseFloat(attendance);
+    let mark = parseFloat(marks);
+
+    if(isNaN(att) || att < 0 || att > 100) {
+        result.innerHTML = "Attendance must be a number between 0 and 100.";
+        result.style.color = "red";
+        return;
+    }
+
+    if(isNaN(mark) || mark < 0 || mark > 100) {
+        result.innerHTML = "Marks must be a number between 0 and 100.";
+        result.style.color = "red";
+        return;
+    }
+
+    let attendanceResult = (att >= 75) ? "Satisfactory" : "Unsatisfactory";
+
+    let grade = "";
+    if(mark >= 80) grade = "A+";
+    else if(mark >= 70) grade = "A";
+    else if(mark >= 60) grade = "B+";
+    else if(mark >= 50) grade = "B";
+    else if(mark >= 40) grade = "C+";
+    else if(mark >= 35) grade = "C";
+    else grade = "F";
+
+    let finalresult = (grade === "F" || attendanceResult === "Unsatisfactory") ? "Fail" : "Pass";
+
+    result.innerHTML = `
+        Name: ${name}<br>
+        Course: ${course}<br>
+        Attendance: ${att}% (${attendanceResult})<br>
+        Marks: ${mark}<br>
+        Grade: ${grade}<br>
+        Final Result: ${finalresult}
+    `;
+
+    result.style.color = (finalresult === "Fail") ? "red" : "green";
+}
+</script>
 </body>
 </html>
