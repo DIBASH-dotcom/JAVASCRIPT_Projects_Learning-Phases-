@@ -1,306 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Result Checker — Upgraded</title>
-<style>
-  :root{
-    --bg:#f6f7fb; --card:#ffffff; --text:#111;
-    --pass:#d4ffd4; --fail:#ffdddd; --accent:#333;
-  }
-  [data-theme="dark"]{
-    --bg:#0f1114; --card:#121317; --text:#e7e7e7; --accent:#ddd;
-  }
-  *{box-sizing:border-box}
-  body{font-family:Inter, system-ui, Arial; margin:18px; background:var(--bg); color:var(--text);}
-  h1{margin:0 0 10px}
-  .layout{max-width:840px;margin:0 auto;display:grid;grid-template-columns:1fr 360px;gap:20px;}
-  @media(max-width:880px){ .layout{grid-template-columns:1fr} }
-
-  .card{background:var(--card); border-radius:12px; padding:18px; box-shadow:0 6px 18px rgba(0,0,0,0.06);}
-  label{display:block;font-weight:700;margin-bottom:6px}
-  input[type="text"], input[type="number"], select{
-    width:100%; padding:8px 10px; border-radius:6px; border:1px solid #ddd; margin-bottom:12px;
-    background:transparent; color:var(--text);
-  }
-  .row{display:flex; gap:10px;}
-  .row > *{flex:1}
-  button{padding:10px 14px;border-radius:8px;border:none;background:var(--accent);color:white;font-weight:700;cursor:pointer}
-  button.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
-  .controls{display:flex; gap:10px; flex-wrap:wrap}
-  #resultBox{display:none;margin-top:14px;border-radius:10px;padding:14px; transform:translateY(20px); opacity:0; transition:all .35s ease;}
-  #resultBox.visible{display:block; transform:translateY(0); opacity:1;}
-  .result-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed rgba(0,0,0,0.04)}
-  .result-row:last-child{border-bottom:0}
-  .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-  .small{font-size:13px;color:rgba(0,0,0,0.45)}
-  .badge{padding:6px 10px;border-radius:999px;font-weight:700}
-  #themeToggle{margin-left:auto}
-  .note{font-size:13px;color:rgba(0,0,0,0.55);margin-top:8px}
-  /* print style */
-  @media print{
-    body{background:#fff}
-    .controls, #themeToggle, .note {display:none}
-    .layout{grid-template-columns:1fr}
-    .card{box-shadow:none; border-radius:0}
-  }
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Grade Calculator</title>
 </head>
 <body>
+<h1>Simple Grade Calculator</h1>
 
-<h1>Result Checker — Upgraded</h1>
-<div class="layout">
-  <!-- Left: Inputs -->
-  <div class="card">
-    <div class="meta">
-      <div>
-        <div class="small">Nepal GPA policy used: A+ = 4.0, A = 3.6, B+ = 3.2, B = 2.8, C+ = 2.4, C = 2.0</div>
-      </div>
-      <div id="themeToggle">
-        <label style="display:flex;gap:8px;align-items:center">
-          <span class="small">Dark</span>
-          <input id="toggleTheme" type="checkbox" />
-        </label>
-      </div>
-    </div>
+<label>Enter Name:</label>
+<input type="text" id="name" placeholder="Enter a Student Name"><br>
 
-    <label>Student Name</label>
-    <input id="Studentname" type="text" placeholder="e.g. Yunika Rai" />
+<label>Enter Marks:</label>
+<input type="number" id="marks" placeholder="Enter Marks"><br>
 
-    <label>Course</label>
-    <select id="course">
-      <option value="">-- Select Course --</option>
-      <option value="IT">IT (bonus 5)</option>
-      <option value="CS">CS (bonus 4)</option>
-      <option value="CIVIL">CIVIL (bonus 3)</option>
-    </select>
+<button onclick="checkgrade()">Check Grade</button>
 
-    <div class="row">
-      <div>
-        <label>Internal Marks (0-40)</label>
-        <input id="internalmarks" type="number" min="0" max="40" placeholder="0 - 40" />
-      </div>
-      <div>
-        <label>Final Marks (0-60)</label>
-        <input id="finalmarks" type="number" min="0" max="60" placeholder="0 - 60" />
-      </div>
-    </div>
-
-    <label>Attendance (%)</label>
-    <input id="attendance" type="number" min="0" max="100" placeholder="e.g. 85" />
-
-    <div style="margin-top:8px" class="controls">
-      <button id="CheckResult">Check Result</button>
-      <button id="Clear" class="ghost">Clear</button>
-      <button id="Print" class="ghost">Export / Print</button>
-      <button id="Save" class="ghost">Save Locally</button>
-    </div>
-
-    <div class="note">Saved data persists in your browser. Use Export to print or save PDF via system print dialog.</div>
-  </div>
-
-  <!-- Right: Result Card -->
-  <div class="card">
-    <div id="resultBox" role="status" aria-live="polite">
-      <div id="statusBadge" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <div><strong>Result Card</strong></div>
-        <div><span id="passfailBadge" class="badge"></span></div>
-      </div>
-
-      <div id="resultContent">
-        <!-- injected -->
-      </div>
-    </div>
-
-    <div style="margin-top:12px" class="small">Notes:
-      <ul style="margin:6px 0 0 18px">
-        <li>Attendance below 75% = automatic FAIL (short attendance).</li>
-        <li>Final total capped at 100 for percentage calculation (bonus won't make percentage >100).</li>
-        <li>GPA displayed per the grade mapping above.</li>
-      </ul>
-    </div>
-  </div>
-</div>
+<p id="result"></p>
 
 <script>
-/* --- Config / Mappings --- */
-const GPA_MAP = { "A+":4.0, "A":3.6, "B+":3.2, "B":2.8, "C+":2.4, "C":2.0, "F":0.0 };
+function checkgrade() {
+    let name = document.getElementById("name").value.trim();
+    let value = document.getElementById("marks").value.trim();
+    let result = document.getElementById("result");
 
-/* --- Helpers --- */
-const $ = id => document.getElementById(id);
-const toUpperTrim = s => (s||"").trim().toUpperCase();
+    // Array to store missing fields
+    let missing = [];
 
-/* --- Theme (dark) --- */
-const body = document.body;
-const themeToggle = $('toggleTheme');
-const savedTheme = localStorage.getItem('rc_theme');
-if(savedTheme === 'dark'){ body.setAttribute('data-theme','dark'); themeToggle.checked = true; }
-themeToggle.addEventListener('change', () => {
-  if(themeToggle.checked){ body.setAttribute('data-theme','dark'); localStorage.setItem('rc_theme','dark'); }
-  else { body.removeAttribute('data-theme'); localStorage.setItem('rc_theme','light'); }
-});
+    if (name === "") missing.push("Name");
+    if (value === "") missing.push("Marks");
 
-/* --- Main logic --- */
-function computeAndShow(){
-  const Studentname = toUpperTrim($('Studentname').value);
-  const course = toUpperTrim($('course').value);
-  const internalmarks = parseFloat($('internalmarks').value);
-  const finalmarks = parseFloat($('finalmarks').value);
-  const attendance = parseFloat($('attendance').value);
-  const resultBox = $('resultBox');
-  const resultContent = $('resultContent');
-  const badge = $('passfailBadge');
+    if (missing.length > 0) {
+        result.innerHTML = "Please fill in: " + missing.join(", ");
+        result.style.color = "red";
+        return;
+    }
 
-  // Basic empty checks
-  if(!Studentname || !course || isNaN(internalmarks) || isNaN(finalmarks) || isNaN(attendance)){
-    resultContent.innerHTML = `<div style="color:#b11"><strong>Fill all fields correctly.</strong></div>`;
-    badge.textContent = "INVALID";
-    badge.style.background = "#ffdddd";
-    resultBox.classList.add('visible');
-    resultBox.style.background = "#ffefef";
-    return;
-  }
+    let marks = parseInt(value);
+    if (isNaN(marks) || marks < 0 || marks > 100) {
+        result.innerHTML = "Please enter valid marks between 0 and 100";
+        result.style.color = "red";
+        return;
+    }
 
-  // ranges
-  if(internalmarks < 0 || internalmarks > 40 || finalmarks < 0 || finalmarks > 60 || attendance < 0 || attendance > 100){
-    resultContent.innerHTML = `<div style="color:#b11"><strong>Enter valid ranges for marks/attendance.</strong></div>`;
-    badge.textContent = "INVALID";
-    badge.style.background = "#ffdddd";
-    resultBox.classList.add('visible');
-    resultBox.style.background = "#ffefef";
-    return;
-  }
+    // Grade calculation
+    let grade = "";
+    if (marks >= 80) grade = "A+";
+    else if (marks >= 70) grade = "A";
+    else if (marks >= 60) grade = "B+";
+    else if (marks >= 50) grade = "B";
+    else if (marks >= 40) grade = "C+";
+    else if (marks >= 35) grade = "C";
+    else grade = "F";
 
-  // attendance rule
-  if(attendance < 75){
-    resultContent.innerHTML = generateOutput({Studentname, course, internalmarks, finalmarks, attendance, failReason: "Short Attendance"});
-    badge.textContent = "FAIL";
-    badge.style.background = "#ffdddd";
-    resultBox.classList.add('visible');
-    resultBox.style.background = "var(--fail)";
-    return;
-  }
-
-  // bonus rules
-  let bonus = 0;
-  if(course === "IT") bonus = 5;
-  else if(course === "CS") bonus = 4;
-  else if(course === "CIVIL") bonus = 3;
-
-  let total = internalmarks + finalmarks;
-  let finalTotal = total + bonus;
-
-  // For percentage cap at 100 (bonus shouldn't make % > 100)
-  let percentage = finalTotal;
-  if(percentage > 100) percentage = 100;
-  // Round to 2 decimals
-  percentage = Math.round((percentage + Number.EPSILON) * 100) / 100;
-
-  // Grade calculation
-  let grade = "F";
-  if(finalTotal >= 90) grade = "A+";
-  else if(finalTotal >= 80) grade = "A";
-  else if(finalTotal >= 70) grade = "B+";
-  else if(finalTotal >= 60) grade = "B";
-  else if(finalTotal >= 50) grade = "C";
-  else grade = "F";
-
-  const gpa = GPA_MAP[grade] ?? 0.0;
-
-  const finalResult = (grade === "F") ? "FAIL" : "PASS";
-
-  // Build object for output
-  const data = { Studentname, course, internalmarks, finalmarks, attendance, total, bonus, finalTotal, percentage, grade, gpa, finalResult };
-  resultContent.innerHTML = generateOutput(data);
-
-  // style
-  if(finalResult === "PASS"){
-    badge.textContent = "PASS";
-    badge.style.background = "var(--pass)";
-    resultBox.style.background = "var(--pass)";
-  } else {
-    badge.textContent = "FAIL";
-    badge.style.background = "var(--fail)";
-    resultBox.style.background = "var(--fail)";
-  }
-  resultBox.classList.add('visible');
+    result.innerHTML = `${name}'s grade is ${grade}`;
+    result.style.color = "green";
 }
-
-/* --- output HTML --- */
-function generateOutput(d){
-  // if failReason present show minimal info
-  if(d.failReason){
-    return `
-      <div class="result-row"><div><strong>Name</strong></div><div>${d.Studentname}</div></div>
-      <div class="result-row"><div><strong>Course</strong></div><div>${d.course}</div></div>
-      <div class="result-row"><div><strong>Attendance</strong></div><div>${d.attendance}%</div></div>
-      <div style="margin-top:8px;color:#b11"><strong>Result:</strong> ${d.failReason}</div>
-    `;
-  }
-
-  return `
-    <div class="result-row"><div><strong>Name</strong></div><div>${d.Studentname}</div></div>
-    <div class="result-row"><div><strong>Course</strong></div><div>${d.course}</div></div>
-    <div class="result-row"><div><strong>Attendance</strong></div><div>${d.attendance}%</div></div>
-    <div class="result-row"><div><strong>Total (Before Bonus)</strong></div><div>${d.total}</div></div>
-    <div class="result-row"><div><strong>Bonus</strong></div><div>${d.bonus}</div></div>
-    <div class="result-row"><div><strong>Final Total</strong></div><div>${d.finalTotal}</div></div>
-    <div class="result-row"><div><strong>Percentage</strong></div><div>${d.percentage}%</div></div>
-    <div class="result-row"><div><strong>Grade</strong></div><div>${d.grade}</div></div>
-    <div class="result-row"><div><strong>GPA (grade point)</strong></div><div>${d.gpa.toFixed(2)}</div></div>
-    <div class="result-row"><div><strong>Final Result</strong></div><div>${d.finalResult}</div></div>
-  `;
-}
-
-/* --- Buttons --- */
-$('CheckResult').addEventListener('click', computeAndShow);
-
-$('Clear').addEventListener('click', () => {
-  $('Studentname').value = ''; $('course').value = ''; $('internalmarks').value = ''; $('finalmarks').value = ''; $('attendance').value = '';
-  $('resultBox').classList.remove('visible'); $('resultBox').style.display = '';
-  localStorage.removeItem('rc_last');
-});
-
-$('Save').addEventListener('click', () => {
-  const payload = {
-    Studentname: $('Studentname').value.trim(),
-    course: $('course').value,
-    internalmarks: $('internalmarks').value,
-    finalmarks: $('finalmarks').value,
-    attendance: $('attendance').value,
-    theme: (body.getAttribute('data-theme') === 'dark') ? 'dark' : 'light',
-    savedAt: new Date().toISOString()
-  };
-  localStorage.setItem('rc_last', JSON.stringify(payload));
-  alert('Saved locally.');
-});
-
-$('Print').addEventListener('click', () => {
-  // make sure result is visible for print
-  if(!$('resultBox').classList.contains('visible')) computeAndShow();
-  window.print();
-});
-
-/* --- load saved data on startup --- */
-(function loadSaved(){
-  const raw = localStorage.getItem('rc_last');
-  if(!raw) return;
-  try{
-    const parsed = JSON.parse(raw);
-    if(parsed.Studentname) $('Studentname').value = parsed.Studentname;
-    if(parsed.course) $('course').value = parsed.course;
-    if(parsed.internalmarks) $('internalmarks').value = parsed.internalmarks;
-    if(parsed.finalmarks) $('finalmarks').value = parsed.finalmarks;
-    if(parsed.attendance) $('attendance').value = parsed.attendance;
-    if(parsed.theme === 'dark'){ themeToggle.checked = true; body.setAttribute('data-theme','dark'); }
-  }catch(e){}
-})();
-
-/* --- keyboard: Enter triggers check --- */
-['Studentname','course','internalmarks','finalmarks','attendance'].forEach(id=>{
-  $(id).addEventListener('keydown', (e) => { if(e.key === 'Enter') computeAndShow(); });
-});
 </script>
 </body>
 </html>
