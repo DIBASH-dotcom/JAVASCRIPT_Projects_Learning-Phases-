@@ -3,55 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Status Checker</title>
+    <title>Age CHECKER</title>
 </head>
 <body>
-    <label>Name:</label>
-    <input type="text" id="name" placeholder="enter your name"><br>
-    <label>Age :</label>
-    <input type="number" id="age" placeholder="enter your age"><br>
+    <h1>Category Checker By Age</h1>
 
-    <button onclick="checkage()">Check</button>
+    <label>Name:</label>
+    <input type="text" id="name" placeholder="Enter Your Name"><br>
+
+    <label>Age:</label>
+    <input type="text" id="age" placeholder="Enter your age"><br>
+
+    <button onclick="ageCalculate()">Check</button>
 
     <p id="result"></p>
 
     <script>
-        function checkage() {
-            let name =document.getElementById("name").value.toUpperCase();
-            let age =parseInt(document.getElementById("age").value);
+        function ageCalculate() {
+            let name = document.getElementById("name").value.toUpperCase();
+            let value = document.getElementById("age").value;
 
-            if(name ===""|| isNaN(age)) {
-                document.getElementById("result").innerHTML="Please enter vaild deatils";
-document.getElementById("result").style.color="red";
-return;            }
+            if (name === "") {
+                document.getElementById("result").innerHTML = "Please enter valid details";
+                document.getElementById("result").style.color = "red";
+                return;
+            }
 
-if(age<=0) {
-    document.getElementById("result").innerHTML="Please enter a valid age 1  or above";
-    document.getElementById("result").style.color="red";
-    return;
-}
+            if (value.trim() === "") {
+                document.getElementById("result").innerHTML = "Please enter your age";
+                document.getElementById("result").style.color = "red";
+                return;
+            }
 
-if(age>=1 && age<=13) {
-    document.getElementById("result").innerHTML="Hello "+name+", you are a child";
-    document.getElementById("result").style.color="green";
-    return;
-}
-else if(age>=14 && age<=19) {
-    document.getElementById("result").innerHTML="Hello "+name+", you are a teenager";
-    document.getElementById("result").style.color="green";
-    return;
-}
+            let age = parseInt(value);
 
-else if(age>=20 &&age<=59) {
-    document.getElementById("result").innerHTML="Hello" +name+",your are adult";
-    document.getElementById("result").style.color="green";
-    return;
-} 
-else {
-    document.getElementById("result").innerHTML="Hello "+name+" ,your age is "+age+",soyou are <bold>senior cizten</bold>";
-    document.getElementById("result").style.color="green";
-    return;
-}       }
+            if (isNaN(age)) {
+                document.getElementById("result").innerHTML = "Age must be a number";
+                document.getElementById("result").style.color = "red";
+                return;
+            }
+
+            let result = "";
+
+            if (age >= 0 && age <= 12) {
+                result = `Hello ${name}, you are a Child.`;
+            }
+            else if (age >= 13 && age <= 19) {
+                result = `Hello ${name}, you are a Teenager.`;
+            }
+            else if (age >= 20 && age <= 59) {
+                result = `Hello ${name}, you are an Adult.`;
+            }
+            else if (age >= 60) {
+                result = `Hello ${name}, you are a Senior Citizen.`;
+            }
+            else {
+                result = "Invalid age entered.";
+            }
+
+            document.getElementById("result").innerHTML = result;
+            document.getElementById("result").style.color = "green";
+        }
     </script>
 </body>
 </html>
