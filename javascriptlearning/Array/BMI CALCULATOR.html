@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI CALCULATOR</title>
+</head>
+<body>
+    <h1> CHECK BMI </h1>
+
+    <label> Name:</label>
+    <input type="text" id="name" placeholder="Enter your Name"><br>
+
+    <label> Weight:</label>
+    <input type="number" id="weight" placeholder="Enter Your Weight"><br>
+
+    <label> Height:</label>
+    <input type="number" id="height" placeholder="Enter Your Height"><br>
+
+    <button onclick="Calculate()">Calculate</button>
+
+    <p id="result"></p>
+
+    <script>
+ function Calculate(){
+        let name = document.getElementById("name").value;
+        let we=document.getElementById("weight").value;
+        let he=document.getElementById("height").value;
+        let result =document.getElementById("result");
+
+        let missingfields= [];
+        if(name ===""){
+            missingfields.push("name");
+        }
+
+        if(we ==="") {
+            missingfields.push("weight");
+        }
+
+        if(he ==="") {
+            missingfields.push("height");
+        }
+
+        if(missingfields.length >0) {
+            result.innerHTML ="Please enter the followwing fields:"+missingfields.join(",");
+            result.style.color="red";
+            return;
+        }
+
+        let weight= parseFloat(we);
+        let height= parseFloat(he);
+
+        if(isNaN(weight) || isNaN(height) || weight<=0 || height<=0) {
+            result.innerHTML="Please enter vaild postive number for weight and height.";
+           result.style.color="red";
+            return;
+        }
+
+       let heightInMeters = height / 100;
+    let bmi = weight / (heightInMeters * heightInMeters);
+    bmi = bmi.toFixed(2);
+
+    function setStyle(color){
+        result.style.color = color;
+        result.style.fontWeight = "bold";
+        result.style.fontSize = "20px";
+    }
+
+    if(bmi < 18.5){
+        result.innerHTML = `Dear ${name}, your BMI is ${bmi}. You are underweight.`;
+        setStyle("orange");
+    }
+    else if(bmi >= 18.5 && bmi < 24.9){
+        result.innerHTML = `Dear ${name}, your BMI is ${bmi}. You are normal weight.`;
+        setStyle("green");
+    }
+    else if(bmi >= 25 && bmi < 29.9){
+        result.innerHTML = `Dear ${name}, your BMI is ${bmi}. You are overweight.`;
+        setStyle("blue");
+    }
+    else{
+        result.innerHTML = `Dear ${name}, your BMI is ${bmi}. You are obese.`;
+        setStyle("red");
+    }
+       
+
+    }
+    </script>
+</body>
+</html>
