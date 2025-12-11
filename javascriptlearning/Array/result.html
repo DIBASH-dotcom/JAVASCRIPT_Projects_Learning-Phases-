@@ -191,6 +191,33 @@
             result.style.display="block";
         }
     </script>
+<!-- 
+CHANGES MADE IN THIS VERSION:
+
+1. Added real-time (oninput) validation:
+   - Name field now checks for empty input and only allows letters/spaces.
+   - Marks field now checks for numeric values and restricts input to 0–100.
+   - Error messages appear instantly below each input (inline validation).
+
+2. Improved error handling:
+   - Removed old “missing fields” array logic.
+   - Validation flow is simpler and prevents calculation when inputs are invalid.
+   - Error messages are more specific and cleaner.
+
+3. Updated UI/UX behavior:
+   - Result box only appears when both inputs are valid.
+   - Input fields show immediate feedback instead of waiting for button click.
+
+4. Code cleanup:
+   - Reduced redundant checks.
+   - Centralized validation into structured oninput events.
+   - Kept grade calculation logic exactly the same (no changes to ranges).
+
+WHY THIS MATTERS:
+- Easier to debug and extend later.
+- Users immediately know what's wrong while typing.
+- Cleaner structure for future maintenance.
+-->
 
 </body>
 </html>
