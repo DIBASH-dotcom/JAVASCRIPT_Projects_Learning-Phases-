@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade Distribution Calculator</title>
 
-
     <style>
-        
         body {
             font-family: Arial, sans-serif;
             background: #f0f2f5;
@@ -18,7 +16,6 @@
             margin: 0;
         }
 
-        
         .container {
             background: #fff;
             padding: 30px 40px;
@@ -74,7 +71,6 @@
             background-color: #0056b3;
         }
 
-      
         #result {
             margin-top: 20px;
             padding: 15px;
@@ -84,7 +80,6 @@
             text-align: center;
         }
 
-       
         @media(max-width: 400px) {
             .container {
                 width: 90%;
@@ -94,18 +89,49 @@
     </style>
 </head>
 <body>
-    
+
     <div class="container">
         <h2>Grade Distribution Calculator</h2>
 
+        <!-- NAME FIELD -->
         <label>Enter Student Name:</label>
-        <input type="text" id="name" placeholder="Enter A Student Name">
+        <input type="text" id="name" placeholder="Enter A Student Name"
+            oninput="
+                var val = this.value;
+                var err = document.getElementById('nameError');
+
+                if(val.trim() === '') {
+                    err.innerText = 'Name is required';
+                } 
+                else if(!/^[A-Za-z ]+$/.test(val)) {
+                    err.innerText = 'Only letters are allowed';
+                } 
+                else {
+                    err.innerText = '';
+                }
+            ">
         <span id="nameError" style="color:red; font-size: 14px;"></span>
 
+        <!-- MARKS FIELD -->
         <label>Enter Student Marks:</label>
-        <input type="text" id="marks" placeholder="Enter Marks of the Student">
-         <span id="marksError" style="color:red; font-size: 14px;"></span>
+        <input type="text" id="marks" placeholder="Enter Marks of the Student"
+            oninput="
+                var v = this.value;
+                var err = document.getElementById('marksError');
+                if(v === '') { err.innerText=''; return; }
 
+                var n = parseFloat(v);
+                if(isNaN(n)) {
+                    err.innerText='please enter a number (0–100)';
+                }
+                else if(n < 0 || n > 100) {
+                    err.innerText='please enter a number';
+                }
+                else {
+                    err.innerText='';
+                }
+            ">
+        <span id="marksError" style="color:red; font-size: 14px;"></span>
 
         <button onclick="calculateresult()">Calculate</button>
 
@@ -119,24 +145,18 @@
             let result= document.getElementById("result");
 
             let nameError = document.getElementById("nameError");
-    let marksError = document.getElementById("marksError");
+            let marksError = document.getElementById("marksError");
 
+            nameError.innerText ="";
+            marksError.innerText ="";
 
-    nameError.innerText ="";
-    marksError.innerText ="";
-    
-
-            let missings=[];
-            if(name==="") {missings.push("Name");
-            nameError.innerText ="Name is requireded";
-        }
-           
-
-           
+            if(name==="") {
+                nameError.innerText ="Name is requireded";
+            }
 
             let marks= parseFloat(marksvalue);
 
-            if(isNaN(marks) ) {
+            if(isNaN(marks)) {
                 marksError.innerText="please enter valid numeric marks like 1,2,2.5,7,8";
                 result.style.color="red";
                 result.style.display ="block";
@@ -172,16 +192,5 @@
         }
     </script>
 
-<!--- Added separate error spans for Name and Marks fields to display inline validation messages.
-- Validates that Name is not empty and Marks is a numeric value between 0 and 100.
-- Retains the grade calculation logic but shows errors below each input instead of a single message box.
-- Maintains result display with color coding (green for pass grades, red for fail).
-- Improved user experience:
-    - Users see exactly which field has an issue without guessing.
-    - The result box only shows after successful input validation.
-- Minor UI/UX tweaks:
-    - Preserved modern, responsive layout and styling.
-    - No change to grade ranges or calculation.
--->
 </body>
 </html>
