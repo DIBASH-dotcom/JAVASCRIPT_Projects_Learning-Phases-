@@ -104,7 +104,7 @@
                     err.innerText = 'Name is required';
                 } 
                 else if(!/^[A-Za-z ]+$/.test(val)) {
-                    err.innerText = 'Only letters are allowed';
+                    err.innerText = 'Only letters are allowed (A,a B,b)';
                 } 
                 else {
                     err.innerText = '';
@@ -125,7 +125,7 @@
                     err.innerText='please enter a number (0–100)';
                 }
                 else if(n < 0 || n > 100) {
-                    err.innerText='please enter a number';
+                    err.innerText='please enter a number UPTO 100';
                 }
                 else {
                     err.innerText='';
