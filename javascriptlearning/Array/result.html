@@ -150,8 +150,17 @@
             nameError.innerText ="";
             marksError.innerText ="";
 
+            missings=[];
             if(name==="") {
                 nameError.innerText ="Name is requireded";
+                missings.push("Name");
+            }
+
+            if(missings.length>0) {
+                result.style.color="red";
+                result.style.display ="block";
+                result.innerText="Please fill the required fields:"+missings.join(",");
+                return;
             }
 
             let marks= parseFloat(marksvalue);
