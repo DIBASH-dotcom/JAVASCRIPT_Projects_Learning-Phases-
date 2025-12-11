@@ -1,61 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simple Grade Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Distribution Calculator</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container for the calculator */
+        .container {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,0.3);
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Result box */
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            background: #f8f9fa;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media(max-width: 400px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>Simple Grade Calculator</h1>
+    
+    <div class="container">
+        <h2>Grade Distribution Calculator</h2>
 
-<label>Enter Name:</label>
-<input type="text" id="name" placeholder="Enter a Student Name"><br>
+        <label>Enter Student Name:</label>
+        <input type="text" id="name" placeholder="Enter A Student Name">
 
-<label>Enter Marks:</label>
-<input type="number" id="marks" placeholder="Enter Marks"><br>
+        <label>Enter Student Marks:</label>
+        <input type="text" id="marks" placeholder="Enter Marks of the Student">
 
-<button onclick="checkgrade()">Check Grade</button>
+        <button onclick="calculateresult()">Calculate</button>
 
-<p id="result"></p>
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
 
-<script>
-function checkgrade() {
-    let name = document.getElementById("name").value.trim();
-    let value = document.getElementById("marks").value.trim();
-    let result = document.getElementById("result");
+    <script>
+        function calculateresult() {
+            let name= document.getElementById("name").value;
+            let marksvalue= document.getElementById("marks").value;
+            let result= document.getElementById("result");
 
-    // Array to store missing fields
-    let missing = [];
+            let missings=[];
+            if(name==="") missings.push("Name");
+            if(marksvalue==="") missings.push("Marks");
 
-    if (name === "") missing.push("Name");
-    if (value === "") missing.push("Marks");
+            if(missings.length>0) {
+                result.innerHTML="Please enter the following fields: " + missings.join(", ");
+                result.style.color="red";
+                result.style.display = "block";
+                return;
+            }
 
-    if (missing.length > 0) {
-        result.innerHTML = "Please fill in: " + missing.join(", ");
-        result.style.color = "red";
-        return;
-    }
+            let marks= parseFloat(marksvalue);
 
-    let marks = parseInt(value);
-    if (isNaN(marks) || marks < 0 || marks > 100) {
-        result.innerHTML = "Please enter valid marks between 0 and 100";
-        result.style.color = "red";
-        return;
-    }
+            if(isNaN(marks) ) {
+                result.innerHTML="please enter valid numeric marks like 1,2,2.5,7,8";
+                result.style.color="red";
+                result.style.display ="block";
+                return;
+            }
 
-    // Grade calculation
-    let grade = "";
-    if (marks >= 80) grade = "A+";
-    else if (marks >= 70) grade = "A";
-    else if (marks >= 60) grade = "B+";
-    else if (marks >= 50) grade = "B";
-    else if (marks >= 40) grade = "C+";
-    else if (marks >= 35) grade = "C";
-    else grade = "F";
+            if(marks<0 || marks>100){
+                result.innerHTML="Please enter valid marks between 0 and 100";
+                result.style.color="red";
+                result.style.display = "block";
+                return;
+            }
 
-    result.innerHTML = `${name}'s grade is ${grade}`;
-    result.style.color = "green";
-}
-</script>
+            let Grade;
+            let color;
+
+            if(marks>=90 && marks<=100){ Grade="A+"; color="green"; }
+            else if(marks>=80 && marks<=89){ Grade="A"; color="green"; }
+            else if(marks>=70 && marks<=79){ Grade="B+"; color="green"; }
+            else if(marks>=60 && marks<=69){ Grade="B"; color="green"; }
+            else if(marks>=50 && marks<=59){ Grade="C"; color="green"; }
+            else if(marks>=40 && marks<=49){ Grade="D+"; color="green"; }
+            else if(marks>=27 && marks<=39){ Grade="D"; color="green"; }
+            else{ Grade="F"; color="red"; }
+
+            result.innerHTML=`
+                Student Name: ${name} <br>
+                Marks Obtained: ${marks} <br>
+                Grade: ${Grade}
+            `;
+            result.style.color=color;
+            result.style.display="block";
+        }
+    </script>
 </body>
 </html>
