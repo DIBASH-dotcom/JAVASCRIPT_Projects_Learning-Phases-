@@ -98,9 +98,12 @@
 
         <label>Enter Student Name:</label>
         <input type="text" id="name" placeholder="Enter A Student Name">
+        <span id="nameError" style="color:red; font-size: 14px;"></span>
 
         <label>Enter Student Marks:</label>
         <input type="text" id="marks" placeholder="Enter Marks of the Student">
+         <span id="marksError" style="color:red; font-size: 14px;"></span>
+
 
         <button onclick="calculateresult()">Calculate</button>
 
@@ -113,28 +116,33 @@
             let marksvalue= document.getElementById("marks").value;
             let result= document.getElementById("result");
 
-            let missings=[];
-            if(name==="") missings.push("Name");
-            if(marksvalue==="") missings.push("Marks");
+            let nameError = document.getElementById("nameError");
+    let marksError = document.getElementById("marksError");
 
-            if(missings.length>0) {
-                result.innerHTML="Please enter the following fields: " + missings.join(", ");
-                result.style.color="red";
-                result.style.display = "block";
-                return;
-            }
+
+    nameError.innerText ="";
+    marksError.innerText ="";
+    
+
+            let missings=[];
+            if(name==="") {missings.push("Name");
+            nameError.innerText ="Name is requireded";
+        }
+           
+
+           
 
             let marks= parseFloat(marksvalue);
 
             if(isNaN(marks) ) {
-                result.innerHTML="please enter valid numeric marks like 1,2,2.5,7,8";
+                marksError.innerText="please enter valid numeric marks like 1,2,2.5,7,8";
                 result.style.color="red";
                 result.style.display ="block";
                 return;
             }
 
             if(marks<0 || marks>100){
-                result.innerHTML="Please enter valid marks between 0 and 100";
+                marksError.innerHTML="Please enter valid marks between 0 and 100";
                 result.style.color="red";
                 result.style.display = "block";
                 return;
