@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade Distribution Calculator</title>
+
+
     <style>
-        /* General body styling */
+        
         body {
             font-family: Arial, sans-serif;
             background: #f0f2f5;
@@ -16,7 +18,7 @@
             margin: 0;
         }
 
-        /* Container for the calculator */
+        
         .container {
             background: #fff;
             padding: 30px 40px;
@@ -72,7 +74,7 @@
             background-color: #0056b3;
         }
 
-        /* Result box */
+      
         #result {
             margin-top: 20px;
             padding: 15px;
@@ -82,7 +84,7 @@
             text-align: center;
         }
 
-        /* Responsive */
+       
         @media(max-width: 400px) {
             .container {
                 width: 90%;
@@ -169,5 +171,17 @@
             result.style.display="block";
         }
     </script>
+
+<!--- Added separate error spans for Name and Marks fields to display inline validation messages.
+- Validates that Name is not empty and Marks is a numeric value between 0 and 100.
+- Retains the grade calculation logic but shows errors below each input instead of a single message box.
+- Maintains result display with color coding (green for pass grades, red for fail).
+- Improved user experience:
+    - Users see exactly which field has an issue without guessing.
+    - The result box only shows after successful input validation.
+- Minor UI/UX tweaks:
+    - Preserved modern, responsive layout and styling.
+    - No change to grade ranges or calculation.
+-->
 </body>
 </html>
