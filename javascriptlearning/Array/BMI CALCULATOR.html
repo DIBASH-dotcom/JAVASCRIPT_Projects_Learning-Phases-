@@ -1,90 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI CALCULATOR</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI Calculator</title>
+<style>
+  
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #74ebd5, #ACB6E5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+   
+    .bmi-card {
+        background: white;
+        padding: 30px 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        text-align: center;
+        width: 350px;
+    }
+
+    h1 {
+        margin-bottom: 25px;
+        color: #333;
+    }
+
+    label {
+        display: block;
+        text-align: left;
+        margin: 10px 0 5px;
+        font-weight: 500;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    input:focus {
+        border-color: #6C63FF;
+        box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+        outline: none;
+    }
+
+    button {
+        background-color: #6C63FF;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+        width: 100%;
+    }
+
+    button:hover {
+        background-color: #574fd6;
+        transform: translateY(-2px);
+    }
+
+    #result {
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+
+    .green { background-color: #d4edda; color: #155724; }
+    .red { background-color: #f8d7da; color: #721c24; }
+    .orange { background-color: #fff3cd; color: #856404; }
+    .blue { background-color: #cce5ff; color: #004085; }
+</style>
 </head>
 <body>
-    <h1> CHECK BMI </h1>
+<div class="bmi-card">
+    <h1>BMI Calculator</h1>
 
-    <label> Name:</label>
-    <input type="text" id="name" placeholder="Enter your Name"><br>
+    <label>Name:</label>
+    <input type="text" id="name" placeholder="Enter your Name">
 
-    <label> Weight:</label>
-    <input type="number" id="weight" placeholder="Enter Your Weight"><br>
+    <label>Weight (kg):</label>
+    <input type="number" id="weight" placeholder="Enter your Weight" min="1">
 
-    <label> Height:</label>
-    <input type="number" id="height" placeholder="Enter Your Height"><br>
+    <label>Height (cm):</label>
+    <input type="number" id="height" placeholder="Enter your Height" min="1">
 
-    <button onclick="Calculate()">Calculate</button>
+    <button onclick="calculateBMI()">Calculate BMI</button>
 
     <p id="result"></p>
+</div>
 
-    <script>
- function Calculate(){
-        let name = document.getElementById("name").value;
-        let we=document.getElementById("weight").value;
-        let he=document.getElementById("height").value;
-        let result =document.getElementById("result");
+<script>
+function calculateBMI() {
+    let name = document.getElementById("name").value.trim();
+    let we = document.getElementById("weight").value.trim();
+    let he = document.getElementById("height").value.trim();
+    let result = document.getElementById("result");
 
-        let missingfields= [];
-        if(name ===""){
-            missingfields.push("name");
-        }
+  
+    let missingFields = [];
+    if(name === "") missingFields.push("Name");
+    if(we === "") missingFields.push("Weight");
+    if(he === "") missingFields.push("Height");
 
-        if(we ==="") {
-            missingfields.push("weight");
-        }
+    if(missingFields.length > 0) {
+        result.textContent = "Please enter the following fields: " + missingFields.join(", ");
+        result.className = "red";
+        return;
+    }
 
-        if(he ==="") {
-            missingfields.push("height");
-        }
 
-        if(missingfields.length >0) {
-            result.innerHTML ="Please enter the followwing fields:"+missingfields.join(",");
-            result.style.color="red";
-            return;
-        }
+    let weight = parseFloat(we);
+    let height = parseFloat(he);
 
-        let weight= parseFloat(we);
-        let height= parseFloat(he);
+    if(isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+        result.textContent = "Please enter valid positive numbers for weight and height.";
+        result.className = "red";
+        return;
+    }
 
-        if(isNaN(weight) || isNaN(height) || weight<=0 || height<=0) {
-            result.innerHTML="Please enter vaild postive number for weight and height.";
-           result.style.color="red";
-            return;
-        }
-
-       let heightInMeters = height / 100;
+  
+    let heightInMeters = height / 100;
     let bmi = weight / (heightInMeters * heightInMeters);
     bmi = bmi.toFixed(2);
 
-    function setStyle(color){
-        result.style.color = color;
-        result.style.fontWeight = "bold";
-        result.style.fontSize = "20px";
+   
+    if(bmi < 18.5) {
+        result.textContent = `Dear ${name}, your BMI is ${bmi}. You are underweight.`;
+        result.className = "orange";
+    } else if(bmi >= 18.5 && bmi < 25) {
+        result.textContent = `Dear ${name}, your BMI is ${bmi}. You are normal weight.`;
+        result.className = "green";
+    } else if(bmi >= 25 && bmi < 30) {
+        result.textContent = `Dear ${name}, your BMI is ${bmi}. You are overweight.`;
+        result.className = "blue";
+    } else {
+        result.textContent = `Dear ${name}, your BMI is ${bmi}. You are obese.`;
+        result.className = "red";
     }
-
-    if(bmi < 18.5){
-        result.innerHTML = `Dear ${name}, your BMI is ${bmi}. You are underweight.`;
-        setStyle("orange");
-    }
-    else if(bmi >= 18.5 && bmi < 24.9){
-        result.innerHTML = `Dear ${name}, your BMI is ${bmi}. You are normal weight.`;
-        setStyle("green");
-    }
-    else if(bmi >= 25 && bmi < 29.9){
-        result.innerHTML = `Dear ${name}, your BMI is ${bmi}. You are overweight.`;
-        setStyle("blue");
-    }
-    else{
-        result.innerHTML = `Dear ${name}, your BMI is ${bmi}. You are obese.`;
-        setStyle("red");
-    }
-       
-
-    }
-    </script>
+}
+</script>
 </body>
 </html>
