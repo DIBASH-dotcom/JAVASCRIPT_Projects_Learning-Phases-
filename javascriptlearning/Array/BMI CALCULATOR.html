@@ -5,85 +5,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BMI Calculator</title>
 <style>
-  
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(to right, #74ebd5, #ACB6E5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-
-   
-    .bmi-card {
-        background: white;
-        padding: 30px 40px;
-        border-radius: 15px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        text-align: center;
-        width: 350px;
-    }
-
-    h1 {
-        margin-bottom: 25px;
-        color: #333;
-    }
-
-    label {
-        display: block;
-        text-align: left;
-        margin: 10px 0 5px;
-        font-weight: 500;
-    }
-
-    input {
-        width: 100%;
-        padding: 10px 15px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        font-size: 16px;
-        transition: 0.3s;
-    }
-
-    input:focus {
-        border-color: #6C63FF;
-        box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
-        outline: none;
-    }
-
-    button {
-        background-color: #6C63FF;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        font-size: 16px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 0.3s;
-        width: 100%;
-    }
-
-    button:hover {
-        background-color: #574fd6;
-        transform: translateY(-2px);
-    }
-
-    #result {
-        margin-top: 20px;
-        font-weight: bold;
-        font-size: 18px;
-        padding: 10px;
-        border-radius: 8px;
-        transition: 0.3s;
-    }
-
-    .green { background-color: #d4edda; color: #155724; }
-    .red { background-color: #f8d7da; color: #721c24; }
-    .orange { background-color: #fff3cd; color: #856404; }
-    .blue { background-color: #cce5ff; color: #004085; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.bmi-card {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    width: 350px;
+}
+h1 { margin-bottom: 25px; color: #333; }
+label { display: block; text-align: left; margin: 10px 0 5px; font-weight: 500; }
+input {
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+input:focus {
+    border-color: #6C63FF;
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+    outline: none;
+}
+input.invalid {
+    border-color: red;
+    background-color: #ffe6e6;
+}
+button {
+    background-color: #6C63FF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+    margin-top:10px;
+}
+button:hover { background-color: #574fd6; transform: translateY(-2px); }
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.green { background-color: #d4edda; color: #155724; }
+.red { background-color: #f8d7da; color: #721c24; }
+.orange { background-color: #fff3cd; color: #856404; }
+.blue { background-color: #cce5ff; color: #004085; }
+.error-msg { color:red; font-size:12px; display:block; margin-bottom:10px; }
 </style>
 </head>
 <body>
@@ -92,12 +76,15 @@
 
     <label>Name:</label>
     <input type="text" id="name" placeholder="Enter your Name">
+    <span id="nameError" class="error-msg"></span>
 
     <label>Weight (kg):</label>
-    <input type="number" id="weight" placeholder="Enter your Weight" min="1">
+    <input type="number" id="weight" placeholder="Enter Your Weight" min="1">
+    <span id="weightError" class="error-msg"></span>
 
     <label>Height (cm):</label>
-    <input type="number" id="height" placeholder="Enter your Height" min="1">
+    <input type="number" id="height" placeholder="Enter Your Height" min="1">
+    <span id="heightError" class="error-msg"></span>
 
     <button onclick="calculateBMI()">Calculate BMI</button>
 
@@ -105,54 +92,119 @@
 </div>
 
 <script>
-function calculateBMI() {
-    let name = document.getElementById("name").value.trim();
-    let we = document.getElementById("weight").value.trim();
-    let he = document.getElementById("height").value.trim();
-    let result = document.getElementById("result");
 
-  
-    let missingFields = [];
-    if(name === "") missingFields.push("Name");
-    if(we === "") missingFields.push("Weight");
-    if(he === "") missingFields.push("Height");
+const nameInput = document.getElementById("name");
+const weightInput = document.getElementById("weight");
+const heightInput = document.getElementById("height");
+const result = document.getElementById("result");
+const nameError = document.getElementById("nameError");
+const weightError = document.getElementById("weightError");
+const heightError = document.getElementById("heightError");
 
-    if(missingFields.length > 0) {
-        result.textContent = "Please enter the following fields: " + missingFields.join(", ");
-        result.className = "red";
+// Real-time validation
+nameInput.addEventListener("input", () => {
+    if(nameInput.value.trim()==='') {
+        nameError.textContent ='Name is required';
+        nameInput.classList.add("invalid");
+    } else if(!/^[A-Za-z ]+$/.test(nameInput.value)) {
+        nameError.textContent = 'Only letters are allowed';
+        nameInput.classList.add("invalid");
+    } else {
+        nameError.textContent = '';
+        nameInput.classList.remove("invalid");
+    }
+});
+
+weightInput.addEventListener("input", () => {
+    if(weightInput.value!=='' && parseFloat(weightInput.value)<=0){
+        weightError.textContent="Enter positive number";
+        weightInput.classList.add("invalid");
+    } else {
+        weightError.textContent="";
+        weightInput.classList.remove("invalid");
+    }
+});
+
+heightInput.addEventListener("input", () => {
+    if(heightInput.value!=='' && parseFloat(heightInput.value)<=0){
+        heightError.textContent="Enter positive number";
+        heightInput.classList.add("invalid");
+    } else {
+        heightError.textContent="";
+        heightInput.classList.remove("invalid");
+    }
+});
+
+
+function calculateBMI(){
+    let name = nameInput.value.trim();
+    let weight = parseFloat(weightInput.value.trim());
+    let height = parseFloat(heightInput.value.trim());
+
+    // Validate fields
+    if(name==='' || !/^[A-Za-z ]+$/.test(name)){
+        nameError.textContent = "Enter valid name";
+        return;
+    }
+    if(isNaN(weight) || weight<=0){
+        weightError.textContent = "Enter valid weight";
+        return;
+    }
+    if(isNaN(height) || height<=0){
+        heightError.textContent = "Enter valid height";
         return;
     }
 
-
-    let weight = parseFloat(we);
-    let height = parseFloat(he);
-
-    if(isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
-        result.textContent = "Please enter valid positive numbers for weight and height.";
-        result.className = "red";
-        return;
-    }
-
-  
-    let heightInMeters = height / 100;
-    let bmi = weight / (heightInMeters * heightInMeters);
+    // Calculate BMI
+    let heightInMeters = height/100;
+    let bmi = weight/(heightInMeters*heightInMeters);
     bmi = bmi.toFixed(2);
 
-   
-    if(bmi < 18.5) {
-        result.textContent = `Dear ${name}, your BMI is ${bmi}. You are underweight.`;
-        result.className = "orange";
-    } else if(bmi >= 18.5 && bmi < 25) {
-        result.textContent = `Dear ${name}, your BMI is ${bmi}. You are normal weight.`;
-        result.className = "green";
-    } else if(bmi >= 25 && bmi < 30) {
-        result.textContent = `Dear ${name}, your BMI is ${bmi}. You are overweight.`;
-        result.className = "blue";
+    if(bmi<18.5){
+        result.textContent=`Dear ${name}, your BMI is ${bmi}. You are underweight.`;
+        result.className="orange";
+    } else if(bmi>=18.5 && bmi<25){
+        result.textContent=`Dear ${name}, your BMI is ${bmi}. You are normal weight.`;
+        result.className="green";
+    } else if(bmi>=25 && bmi<30){
+        result.textContent=`Dear ${name}, your BMI is ${bmi}. You are overweight.`;
+        result.className="blue";
     } else {
-        result.textContent = `Dear ${name}, your BMI is ${bmi}. You are obese.`;
-        result.className = "red";
+        result.textContent=`Dear ${name}, your BMI is ${bmi}. You are obese.`;
+        result.className="red";
     }
 }
 </script>
+
+<!-- 
+CHANGES MADE IN THIS VERSION:
+
+1. Added real-time (oninput) validation for all fields:
+   - Name field now checks for empty input and only allows letters and spaces.
+   - Weight field checks for positive numbers and gives instant feedback.
+   - Height field checks for positive numbers and gives instant feedback.
+   - Error messages appear below each input using <span> elements.
+
+2. Improved error handling:
+   - Removed old "missingFields" array logic for simplicity.
+   - Validation now prevents BMI calculation if any input is invalid.
+   - Error messages are more specific and user-friendly.
+
+3. Updated UI/UX:
+   - Input fields turn red when invalid (class="invalid") and revert when corrected.
+   - Result box only displays when all inputs are valid.
+   - Cleaner layout and spacing for error messages.
+
+4. Code cleanup:
+   - Centralized validation logic using addEventListener instead of inline attributes.
+   - Removed redundant parsing and checks.
+   - BMI calculation logic remains unchanged.
+
+WHY THIS MATTERS:
+- Easier to maintain and extend in the future.
+- Users get instant feedback on mistakes while typing.
+- Clear separation between validation and BMI calculation.
+-->
+
 </body>
 </html>
