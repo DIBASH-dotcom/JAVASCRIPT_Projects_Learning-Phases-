@@ -149,11 +149,18 @@ function submit_form() {
         return;
     }
 
-    if (name === "" || password === "") {
-        result.innerText = "Please fill all fields";
+    if (name === "") {
+        result.innerText = "User Name is required";
         result.style.color = "red";
         return;
     }
+    if (password === "") {
+        result.innerText = "Password is required";
+        result.style.color = "red";
+        return;
+    }
+    
+    
 
   
     if (name === "admin" && password === "123456") {
