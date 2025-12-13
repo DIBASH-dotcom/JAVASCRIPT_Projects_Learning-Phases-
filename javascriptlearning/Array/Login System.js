@@ -11,12 +11,12 @@
         <form action="">
 
             <label> UserName:</label>
-            <input type="text" id="name" placeholder="Enter Your User Name"><br>
+            <input type="text" id="name" placeholder="Enter Your User Name" oninput="checkName()"><br>
              <span id="nameError"></span>
 
             <label> Password:</label>
 
-            <input type="text" id="password" placeholder="Enter Your Password"><br>
+            <input type="text" id="password" placeholder="Enter Your Password" oninput="checkPassword()"><br>
  <span id="passworderror"></span>
             
 <button onclick="submit_form()">Login</button>
@@ -27,51 +27,86 @@
 
     <script>
 
-   function submit_form() {
-        let name= document.getElementById("name").value;
-        let password=document.getElementById("password").value;
 
-        let result=document.getElementById("result");
+function checkName() {
+    let name= document.getElementById("name").value;
+    let error= document.getElementById("nameError");
 
-        if(!name && !password){
-            document.getElementById("result").innerHTML="Uswer Name and Password is requirded";
-            result.style.color="red";
-            return;
-        }
+    if(name==="") {
+        error.innerText="User Name is requireded";
+        error.style.color="red";
 
-
-        if(name==="") {
-           
-           document.getElementById("nameError").innerText="User Name is requireded";
-             nameError.style.color="red";
-            return;
-        }
-
-        if(password==="") {
-            document.getElementById("passworderror").innerHTML="Password is requireded";
-            passworderror.style.color="red";
-            return;
-        }
-if(password.length <6) {
-    document.getElementById("passworderror").innerHTML="Password must be at least 6 characters  or long";
-    result.style.color="red";
-    return;
+    } else {
+        error.innerText="";
+    }
 }
-        if(name ==="admin" && password==="123456") {
-            document.getElementById("result").innerHTML="Login Sucessfully";
-            result.style.color="green";
-            return;
-        }
-        else {
-            document.getElementById("result").innerHTML="Invalid User Name or Password";
-            result.style.color="red";
-            return;
-        }
 
 
+function checkPassword() {
+    let password=document.getElementById("password").value;
+    let errorpassword= document.getElementById("passworderror");
 
-   }
+    if(password ==="") {
+        errorpassword.innerHTML ="password id requireded";
+        errorpassword.style.color="red";
+    } 
+    else {
+        errorpassword.innerText="";
+    }
+} 
+
+   function submit_form() {
+
+
+    
+    let name = document.getElementById("name").value;
+    let password = document.getElementById("password").value;
+    let result = document.getElementById("result");
+
+    if (name === "" || password === "") {
+        result.innerText = "please fill all the fields";
+        result.style.color = "red";
+        return;
+    }
+
+    if (name === "admin" && password === "123456") {
+        result.innerText = "Login Successfully";
+        result.style.color = "green";
+    } else {
+        result.innerText = "Invalid Username or Password";
+        result.style.color = "red";
+    }
+
+    
+}
+
+
     </script>
+
+
+<!--
+CHANGES MADE IN THIS VERSION:
+
+1. Added real-time validation using `oninput`:
+   - Username field now shows an error immediately when left empty.
+   - Password field now shows an error immediately when left empty.
+   - Users get feedback while typing instead of after clicking Login.
+
+2. Separated validation logic:
+   - Created `checkName()` for username validation.
+   - Created `checkPassword()` for password validation.
+   - This removes duplicate checks inside the submit function.
+
+3. Improved submit flow:
+   - Form submission now only checks final validity.
+   - Displays a clear message when fields are missing.
+   - Keeps login logic simple and readable.
+
+4. Better user feedback:
+   - Error messages appear below each input.
+   - Result message clearly shows success or failure.
+
+-->
 
 </body>
 </html>
