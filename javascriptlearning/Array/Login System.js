@@ -142,31 +142,43 @@ function submit_form() {
     let name = document.getElementById("name").value;
     let password = document.getElementById("password").value;
 
-    if (password === "") {
-        emptyPasswordAttempts++;
-
-        result.innerText =
-            "Password empty. Attempts left: " + (6 - emptyPasswordAttempts);
+  
+    if (name === "" && password === "") {
+        result.innerText = "User Name and Password are required";
         result.style.color = "red";
-
-        if (emptyPasswordAttempts >= 6) {
-            isBlocked = true;
-            result.innerText = "Too many attempts. You are blocked.";
-            document.getElementById("name").disabled = true;
-            document.getElementById("password").disabled = true;
-        }
         return;
     }
 
+    if (name === "" || password === "") {
+        result.innerText = "Please fill all fields";
+        result.style.color = "red";
+        return;
+    }
+
+  
     if (name === "admin" && password === "123456") {
         result.innerText = "Login Successfully";
         result.style.color = "green";
-        emptyPasswordAttempts = 0;
-    } else {
-        result.innerText = "Invalid Username or Password";
-        result.style.color = "red";
+        emptyPasswordAttempts = 0; // reset
+        return;
+    }
+
+  
+    emptyPasswordAttempts++;
+
+    result.innerText =
+        "Wrong password. Attempts left: " + (6 - emptyPasswordAttempts);
+    result.style.color = "red";
+
+  
+    if (emptyPasswordAttempts >= 6) {
+        isBlocked = true;
+        result.innerText = "Too many wrong attempts. You are blocked.";
+        document.getElementById("name").disabled = true;
+        document.getElementById("password").disabled = true;
     }
 }
+
 </script>
 
 
