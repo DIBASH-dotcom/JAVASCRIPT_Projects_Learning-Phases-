@@ -125,9 +125,12 @@ function checkPassword() {
     if (password === "") {
         error.innerText = "Password is required";
         error.style.color = "red";
+    } else if(password.length < 6) {
+        error.innerText = "Password must be at least 6 characters";
+        error.style.color = "red";
     } else {
         error.innerText = "";
-    }
+}
 }
 
 function submit_form() {
@@ -166,7 +169,7 @@ function submit_form() {
     if (name === "admin" && password === "123456") {
         result.innerText = "Login Successfully";
         result.style.color = "green";
-        emptyPasswordAttempts = 0; // reset
+        emptyPasswordAttempts = 0; 
         return;
     }
 
