@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result System</title>
+</head>
+<body>
+
+    <label>Student Name:</label>
+    <input type="text" id="name" placeholder="Enter Your Name"><br><br>
+
+    <label>Subject 1 Name:</label>
+    <input type="text" id="subject1" placeholder="Enter Subject 1 Name"><br>
+    <label>Marks:</label>
+    <input type="number" id="marks1" placeholder="Enter Marks"><br><br>
+
+    <label>Subject 2 Name:</label>
+    <input type="text" id="subject2" placeholder="Enter Subject 2 Name"><br>
+    <label>Marks:</label>
+    <input type="number" id="marks2" placeholder="Enter Marks"><br><br>
+
+    <label>Subject 3 Name:</label>
+    <input type="text" id="subject3" placeholder="Enter Subject 3 Name"><br>
+    <label>Marks:</label>
+    <input type="number" id="marks3" placeholder="Enter Marks"><br><br>
+
+    <label>Subject 4 Name:</label>
+    <input type="text" id="subject4" placeholder="Enter Subject 4 Name"><br>
+    <label>Marks:</label>
+    <input type="number" id="marks4" placeholder="Enter Marks"><br><br>
+
+    <label>Subject 5 Name:</label>
+    <input type="text" id="subject5" placeholder="Enter Subject 5 Name"><br>
+    <label>Marks:</label>
+    <input type="number" id="marks5" placeholder="Enter Marks"><br><br>
+
+    <button onclick="checkResult()">Check Result</button>
+
+    <p id="result"></p>
+
+<script>
+function checkResult() {
+    let name = document.getElementById("name").value;
+    let subject1 = document.getElementById("subject1").value;
+    let marks1 = document.getElementById("marks1").value;
+
+    let subject2 = document.getElementById("subject2").value;  
+    let marks2 = document.getElementById("marks2").value;
+    
+    let subject3 = document.getElementById("subject3").value;
+    let marks3 = document.getElementById("marks3").value;
+
+    let subject4 = document.getElementById("subject4").value;
+    let marks4 = document.getElementById("marks4").value;
+
+    let subject5 = document.getElementById("subject5").value;
+    let marks5 = document.getElementById("marks5").value;
+
+    let result = document.getElementById("result");
+
+    // Missing subject names check
+    let missingFields = [];
+    if(name === "") missingFields.push("Student Name");
+    if(subject1 === "") missingFields.push("Subject 1 Name");
+    if(subject2 === "") missingFields.push("Subject 2 Name");
+    if(subject3 === "") missingFields.push("Subject 3 Name");
+    if(subject4 === "") missingFields.push("Subject 4 Name");
+    if(subject5 === "") missingFields.push("Subject 5 Name");
+
+    if(missingFields.length > 0){
+        result.innerHTML = "Please fill the following fields: <br>" + missingFields.join(", <br>");
+        result.style.color = "red";
+        return;
+    }
+
+    // Missing marks check
+    let missingMarks = [];
+    if(marks1 === "") missingMarks.push("Marks for " + subject1);
+    if(marks2 === "") missingMarks.push("Marks for " + subject2);
+    if(marks3 === "") missingMarks.push("Marks for " + subject3);
+    if(marks4 === "") missingMarks.push("Marks for " + subject4);
+    if(marks5 === "") missingMarks.push("Marks for " + subject5);
+
+    if(missingMarks.length > 0){
+        result.innerHTML = "Please enter marks for: <br>" + missingMarks.join(", <br>");
+        result.style.color = "red";
+        return;
+    }
+
+    // Optional: Convert marks to numbers and calculate total/average
+    marks1 = Number(marks1);
+    marks2 = Number(marks2);
+    marks3 = Number(marks3);
+    marks4 = Number(marks4);
+    marks5 = Number(marks5);
+
+    let total = marks1 + marks2 + marks3 + marks4 + marks5;
+    let average = total / 5;
+    let grade = (average >= 80) ? "A" :
+                (average >= 60) ? "B" :
+                (average >= 40) ? "C" : "F";
+    let status = (average >= 40) ? "Pass" : "Fail";
+
+    result.innerHTML = `Student Name: ${name} <br>
+                        Total Marks: ${total} <br>
+                        Average: ${average} <br>
+                        Grade: ${grade} <br>
+                        Status: ${status}`;
+    result.style.color = "green";
+}
+</script>
+</body>
+</html>
