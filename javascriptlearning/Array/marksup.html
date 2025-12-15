@@ -39,76 +39,69 @@
 
     <p id="result"></p>
 
+
 <script>
-function checkResult() {
-    let name = document.getElementById("name").value;
-    let subject1 = document.getElementById("subject1").value;
-    let marks1 = document.getElementById("marks1").value;
 
-    let subject2 = document.getElementById("subject2").value;  
-    let marks2 = document.getElementById("marks2").value;
-    
-    let subject3 = document.getElementById("subject3").value;
-    let marks3 = document.getElementById("marks3").value;
+    function checkResult() {
+        let name =  document.getElementById("name").value;
+        let subject1 = document.getElementById("subject1").value;
+        let marks1 = document.getElementById("marks1").value;
 
-    let subject4 = document.getElementById("subject4").value;
-    let marks4 = document.getElementById("marks4").value;
+       
+        let subject2 = document.getElementById("subject2").value;  
+        let marks2 = document.getElementById("marks2").value;
+        
+         let subject3 = document.getElementById("subject3").value;
+         let marks3 = document.getElementById("marks3").value;
 
-    let subject5 = document.getElementById("subject5").value;
-    let marks5 = document.getElementById("marks5").value;
+          let subject4= document.getElementById("subject4").value;
+          let marks4 = document.getElementById("marks4").value;
 
-    let result = document.getElementById("result");
 
-    // Missing subject names check
-    let missingFields = [];
-    if(name === "") missingFields.push("Student Name");
-    if(subject1 === "") missingFields.push("Subject 1 Name");
-    if(subject2 === "") missingFields.push("Subject 2 Name");
-    if(subject3 === "") missingFields.push("Subject 3 Name");
-    if(subject4 === "") missingFields.push("Subject 4 Name");
-    if(subject5 === "") missingFields.push("Subject 5 Name");
+           let subject5 = document.getElementById("subject5").value;
+           let marks5 = document.getElementById("marks5").value;
+        
+        let result = document.getElementById("result");
 
-    if(missingFields.length > 0){
-        result.innerHTML = "Please fill the following fields: <br>" + missingFields.join(", <br>");
-        result.style.color = "red";
-        return;
+        let missingsfields=[];
+
+        if(name ===""){
+            missingsfields.push("Student Name");
+        }
+
+        if( subject1 ==="") {
+            missingsfields.push("Subject 1 Name is necessary ");
+        }
+
+        if(subject2 ==="") {
+            missingsfields.push("Subhect 2 is  name is necessary ");
+        }
+
+        if(subject3 ==="") {
+            missingsfields.push("Subhect 3 is  name is necessary ");
+        }
+
+        if(subject4 ==="") {
+            missingsfields.push("Subhect 4 is  name is necessary ");
+        }
+
+        if(subject5 ==="") {
+            missingsfields.push("Subhect 5 is  name is necessary ");
+        }
+
+        if(missingsfields.length > 0) {
+            result.innerHTML ="Please fill the following fields : " + missingsfields.join(",  <br>");
+            result.style.color = "red";
+            return;
+        }
+
+        if( isNaN(marks1) ==="" || isNaN(marks2) ==="" || isNaN(marks3) ==="" ||  isNaN(marks4) ==="" || isNaN(marks5) ==="") {
+            result.innerHTML ="Please enter marks for all subjects.";
+            result.style.color = "green";
+            return;
+        }
     }
-
-    // Missing marks check
-    let missingMarks = [];
-    if(marks1 === "") missingMarks.push("Marks for " + subject1);
-    if(marks2 === "") missingMarks.push("Marks for " + subject2);
-    if(marks3 === "") missingMarks.push("Marks for " + subject3);
-    if(marks4 === "") missingMarks.push("Marks for " + subject4);
-    if(marks5 === "") missingMarks.push("Marks for " + subject5);
-
-    if(missingMarks.length > 0){
-        result.innerHTML = "Please enter marks for: <br>" + missingMarks.join(", <br>");
-        result.style.color = "red";
-        return;
-    }
-
-    // Optional: Convert marks to numbers and calculate total/average
-    marks1 = Number(marks1);
-    marks2 = Number(marks2);
-    marks3 = Number(marks3);
-    marks4 = Number(marks4);
-    marks5 = Number(marks5);
-
-    let total = marks1 + marks2 + marks3 + marks4 + marks5;
-    let average = total / 5;
-    let grade = (average >= 80) ? "A" :
-                (average >= 60) ? "B" :
-                (average >= 40) ? "C" : "F";
-    let status = (average >= 40) ? "Pass" : "Fail";
-
-    result.innerHTML = `Student Name: ${name} <br>
-                        Total Marks: ${total} <br>
-                        Average: ${average} <br>
-                        Grade: ${grade} <br>
-                        Status: ${status}`;
-    result.style.color = "green";
-}
 </script>
 </body>
+
 </html>
