@@ -95,11 +95,32 @@
             return;
         }
 
-        if( isNaN(marks1) ==="" || isNaN(marks2) ==="" || isNaN(marks3) ==="" ||  isNaN(marks4) ==="" || isNaN(marks5) ==="") {
-            result.innerHTML ="Please enter marks for all subjects.";
-            result.style.color = "green";
-            return;
-        }
+        let marks=[];
+   if(marks1==="") {
+    marks.push("  marks 1 is missing ");
+   }
+
+    if(marks2==="") {
+    marks.push("  marks 2 is missing ");
+   }
+
+    if(marks3==="") {
+    marks.push("  marks 3 is missing ");
+   }
+
+    if(marks4==="") {
+    marks.push("  marks 4 is missing ");
+   }
+
+    if(marks5==="") {
+    marks.push("  marks 5 is missing ");
+   }
+
+   if(marks.length>0) {
+    result.innerHTML ="Please fill the following fields : "+ marks.join(", <br>");
+    result.style.color="green";
+    return;
+   }
     }
 </script>
 </body>
