@@ -4,9 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Result System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        input, button {
+            font-family: inherit;
+        }
+
+        body > * {
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #4e9af1;
+            outline: none;
+            box-shadow: 0 0 5px rgba(78, 154, 241, 0.4);
+        }
+
+        span {
+            font-size: 13px;
+            color: red;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #4e9af1;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3b7cd1;
+        }
+
+        #result {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        @media(max-width: 550px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
+<div class="container">
     <label>Student Name:</label>
     <input type="text" id="name" placeholder="Enter Your Name" oninput="StudentName()"><br><br>
      <span id="nameError"></span><br>
@@ -51,7 +147,7 @@
     <button onclick="checkResult()">Check Result</button>
 
     <p id="result"></p>
-
+</div>
 
 <script>
 
@@ -103,135 +199,55 @@ function marks() {
 function subjectname() { 
 
     let subjectpattern =  /^[A-Za-z\s]+$/;
+   for(let i=1; i<5; i++) {
+    let subject = document.getElementById("subject" + i).value;
+    let subjecterror = document.getElementById("subjecterror" + i);
 
+    if(!subjectpattern.test(subject)) {
+        subjecterror.innerText = "Invaild Subject Name .Only leeters and spaxes are allowede like dibash,a,b,ac";
+        subjecterror.style.color ="red";
+    }
+    else {
+        subjecterror.innerText ="";
+    }
+    }
+   }
+   
+  function checkResult() {
+    let name = document.getElementById("name").value;
     let subject1 = document.getElementById("subject1").value;
     let subject2 = document.getElementById("subject2").value;
     let subject3 = document.getElementById("subject3").value;
     let subject4 = document.getElementById("subject4").value;
     let subject5 = document.getElementById("subject5").value;
+    let marks1 = document.getElementById("marks1").value;
+    let marks2 = document.getElementById("marks2").value;
+    let marks3 = document.getElementById("marks3").value;
+    let marks4 = document.getElementById("marks4").value;
+    let marks5 = document.getElementById("marks5").value;
+
+    let result = document.getElementById("result");
 
     
-    let subjecterror1 = document.getElementById("subjecterror1");
-    let subjecterror2 = document.getElementById("subjecterror2");
-    let subjecterror3 = document.getElementById("subjecterror3");
-     let subjecterror4 = document.getElementById("subjecterror4");
-      let subjecterror5 = document.getElementById("subjecterror5");
+    if (
+        name === "" || 
+        subject1 === "" || subject2 === "" || subject3 === "" || subject4 === "" || subject5 === "" ||
+        marks1 === "" || marks2 === "" || marks3 === "" || marks4 === "" || marks5 === "" ||
+        marks1 < 0 || marks1 > 100 ||
+        marks2 < 0 || marks2 > 100 ||
+        marks3 < 0 || marks3 > 100 ||
+        marks4 < 0 || marks4 > 100 ||
+        marks5 < 0 || marks5 > 100
+    ) {
+        result.innerText = "Invalid fields. Please fill all correctly.";
+        result.style.color = "red";
+        return;
+    }
 
-
-      if(!subjectpattern.test(document.getElementById("subject1").value)) {
-        subjecterror1.innerText ="Invalid Subject Name .Only letters and spaces are allowed";
-        subjecterror1.style.color ="red";
-      } else {
-        subjecterror1.innerText ="";
-      }
-
-      if(!subjectpattern.test(document.getElementById("subject2").value)) {
-        subjecterror2.innerText ="Invalid Subject Name .Only letters and spaces are allowed";
-        subjecterror2.style.color ="red";
-      } else {
-        subjecterror2.innerText ="";
-      }
-
-      if(!subjectpattern.test(document.getElementById("subject3").value)) {
-        subjecterror3.innerText ="Invalid Subject Name .Only letters and spaces are allowed";
-        subjecterror3.style.color ="red";
-      } else {
-        subjecterror3.innerText ="";
-      }
-
-      if(!subjectpattern.test(document.getElementById("subject4").value)) {
-        subjecterror4.innerText ="Invalid Subject Name .Only letters and spaces are allowed";
-        subjecterror4.style.color ="red";
-      } else {
-        subjecterror4.innerText ="";
-      }
-
-      if(!subjectpattern.test(document.getElementById("subject5").value)) {
-        subjecterror5.innerText ="Invalid Subject Name .Only letters and spaces are allowed";
-        subjecterror5.style.color ="red";
-      } else {
-        subjecterror5.innerText ="";
-      }
+    result.innerText = "All fields are valid!";
+    result.style.color = "green";
 }
 
-    function checkResult() {
-       
-        let subject1 = document.getElementById("subject1").value;
-        let marks1 = document.getElementById("marks1").value;
-
-       
-        let subject2 = document.getElementById("subject2").value;  
-        let marks2 = document.getElementById("marks2").value;
-        
-         let subject3 = document.getElementById("subject3").value;
-         let marks3 = document.getElementById("marks3").value;
-
-          let subject4= document.getElementById("subject4").value;
-          let marks4 = document.getElementById("marks4").value;
-
-
-           let subject5 = document.getElementById("subject5").value;
-           let marks5 = document.getElementById("marks5").value;
-        
-        let result = document.getElementById("result");
-
-        let missingsfields=[];
-
-        
-        if( subject1 ==="") {
-            missingsfields.push("Subject 1 Name is necessary ");
-        }
-
-        if(subject2 ==="") {
-            missingsfields.push("Subhect 2 is  name is necessary ");
-        }
-
-        if(subject3 ==="") {
-            missingsfields.push("Subhect 3 is  name is necessary ");
-        }
-
-        if(subject4 ==="") {
-            missingsfields.push("Subhect 4 is  name is necessary ");
-        }
-
-        if(subject5 ==="") {
-            missingsfields.push("Subhect 5 is  name is necessary ");
-        }
-
-
-        if(marks1 ==="") {
-            missingsfields.push("Marks for Subject 1 is invalid");
-        }
-
-        if(marks2 ==="") {
-            missingsfields.push("Marks for Subejct 2 is invalid")
-        }
-
-        if(marks3 ==="") {
-            missingsfields.push("Marks for Subject 3 is invalid");
-        }
-
-        if(marks4 === "") {
-            missingsfields.push("Makrs for Subejct 4 is invalid");
-        }
-
-        if(marks5 ==="")  {
-            missingsfields.push("Makrs for subehct 5 is invalid");
-        }
-
-        
-        if(missingsfields.length > 0) {
-            result.innerHTML ="Please fill the following fields :<br> " + missingsfields.join(",  <br>");
-            result.style.color = "red";
-            return;
-        }
-
-        
-
-   
-
-       
-    }
 </script>
 </body>
 
