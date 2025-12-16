@@ -5,8 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Result System</title>
 </head>
-<body>
 
+<style>
+/* Global body styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #74ebd5, #acb6e5);
+    margin: 0;
+    padding: 10px; /* small padding for mobile */
+}
+
+/* Container for the form */
+.container {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 500px;
+    transition: 0.3s;
+}
+
+/* Labels and inputs */
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 1rem;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 8px #4CAF50;
+    outline: none;
+}
+
+/* Button styles */
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* Error message styling */
+span {
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: block;
+    color: red;
+}
+
+/* Result message */
+#result {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 550px) {
+    .container {
+        padding: 25px 20px;
+        border-radius: 15px;
+    }
+
+    label {
+        font-size: 0.95rem;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        padding: 14px 12px;
+        font-size: 15px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .container {
+        padding: 20px 15px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    button {
+        font-size: 15px;
+        padding: 10px;
+    }
+}
+
+</style>
+
+<body>
+<div class="container">
     <label>Student Name:</label>
     <input type="text" id="name" placeholder="Enter Your Name" oninput="StudentName()"><br><br>
      <span id="nameError"></span><br>
@@ -53,7 +183,7 @@
 
     <p id="result"></p>
 
-
+</div>
 <script>
 
 function StudentName() {
