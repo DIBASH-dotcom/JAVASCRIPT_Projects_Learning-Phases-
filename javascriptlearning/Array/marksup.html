@@ -5,116 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Result System</title>
 </head>
-
 <style>
-:root{
-    --bg1: #74ebd5;
-    --bg2: #acb6e5;
-    --card: #ffffff;
-    --accent: #2fa36a;
-    --accent-2: #23864f;
-    --muted: #6b7280;
-    --danger: #ef4444;
-    --radius: 14px;
-    --gap: 14px;
-}
 
-body{
-    margin: 0;
-    padding: 20px;
-    min-height: 100vh;
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    background: linear-gradient(135deg, var(--bg1), var(--bg2));
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
 }
 
-.container{
+.container {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     width: 100%;
-    max-width: 540px;
-    background: var(--card);
-    padding: 20px;
-    border-radius: var(--radius);
-    box-shadow: 0 10px 30px rgba(11,23,39,0.12);
+    max-width: 500px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
     box-sizing: border-box;
-    transition: transform 180ms ease, box-shadow 180ms ease;
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap);
+    transition: all 0.2s ease;
 }
 
-
-.container label{color:var(--muted); font-weight:600; font-size:0.95rem; line-height:1.2}
-.container input[type="text"], .container input[type="number"]{
-    width:100%;
-    padding:14px 14px;
-    font-size:1rem;
-    border-radius:10px;
-    border:1px solid #e6e9ef;
-    background:#fbfdff;
-    box-sizing:border-box;
-    transition: box-shadow 140ms ease, border-color 140ms ease, transform 120ms ease;
-    -webkit-tap-highlight-color: transparent;
-}
-
-
-.container input::placeholder { color: #9aa2ad; opacity: 1 }
-
-.container span{display:block; min-height:1.2em; color:var(--danger); font-size:0.92rem}
-
-
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0 }
-input[type=number] { -moz-appearance: textfield }
-
-.container input:focus{
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.3);
     outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 10px 30px rgba(47,163,106,0.12);
-    transform: translateY(-1px);
 }
 
 
-button{min-height:48px}
-
-button{
-    width:100%;
-    padding:14px 16px;
-    margin-top:6px;
-    background: linear-gradient(90deg, var(--accent), var(--accent-2));
-    color:#fff;
-    border:none;
-    border-radius:12px;
-    font-size:1rem;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow: 0 8px 20px rgba(35,134,79,0.15);
-    transition: transform 120ms ease, box-shadow 120ms ease;
+span {
+    font-size: 13px;
+    margin-top: 3px;
+    display: block;
 }
-button:hover{transform: translateY(-3px); box-shadow: 0 12px 30px rgba(35,134,79,0.18)}
 
-#result{margin-top:16px; font-weight:700; text-align:center; font-size:1rem; min-height:1.2em}
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    background: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
 
-
-@media (min-width: 700px){
-    body{padding:40px}
-    .container{padding:28px}
-    button{width:60%; margin-left:auto; margin-right:auto}
+button:hover {
+    background: #0056b3;
 }
 
 
-@media (max-width: 360px){
-    body{padding:14px}
-    .container{padding:16px; border-radius:12px}
-    .container input[type="text"], .container input[type="number"]{padding:12px}
-    button{padding:12px; font-size:0.98rem}
+#result {
+    margin-top: 20px;
+    font-weight: 600;
+    line-height: 1.5;
 }
 
-.container input:focus, button:focus{box-shadow: 0 12px 30px rgba(47,163,106,0.12)}
 
+@media (max-width: 550px) {
+    .container {
+        padding: 20px;
+    }
+    input[type="text"],
+    input[type="number"] {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+    button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
 </style>
+
+
 
 <body>
 <div class="container">
@@ -229,36 +216,70 @@ function subjectname(subjectId) {
 
 
    
-  function checkResult() {
-    let name = document.getElementById("name").value;
-    let subject1 = document.getElementById("subject1").value;
-    let subject2 = document.getElementById("subject2").value;
-    let subject3 = document.getElementById("subject3").value;
-    let subject4 = document.getElementById("subject4").value;
-    let subject5 = document.getElementById("subject5").value;
-    let marks1 = document.getElementById("marks1").value;
-    let marks2 = document.getElementById("marks2").value;
-    let marks3 = document.getElementById("marks3").value;
-    let marks4 = document.getElementById("marks4").value;
-    let marks5 = document.getElementById("marks5").value;
+ function checkResult() {
+    let name = document.getElementById("name").value.trim();
+    let subjects = [
+        document.getElementById("subject1").value.trim(),
+        document.getElementById("subject2").value.trim(),
+        document.getElementById("subject3").value.trim(),
+        document.getElementById("subject4").value.trim(),
+        document.getElementById("subject5").value.trim()
+    ];
+
+    let marks = [
+        parseInt(document.getElementById("marks1").value),
+        parseInt(document.getElementById("marks2").value),
+        parseInt(document.getElementById("marks3").value),
+        parseInt(document.getElementById("marks4").value),
+        parseInt(document.getElementById("marks5").value)
+    ];
 
     let result = document.getElementById("result");
 
     
-    if (name === "" ||
-       subject1 ==="" || marks1 ==="" ||
-       subject2 ==="" || marks2 ==="" ||
-       subject3 ==="" || marks3 ==="" ||
-       subject4 ==="" || marks4 ==="" ||
-       subject5 ==="" || marks5 ===""  ) {
+    if (!name || subjects.some(s => !s) || marks.some(m => isNaN(m))) {
         result.innerText = "Invalid fields. Please fill all correctly.";
         result.style.color = "red";
         return;
     }
 
-    result.innerText = "All fields are valid!";
-    result.style.color = "green";
+    let total = marks.reduce((a, b) => a + b, 0);
+    let percentage = (total / 500) * 100;
+
+    let grade = "";
+    if (percentage >= 90) grade = "A+";
+    else if (percentage >= 80) grade = "A";
+    else if (percentage >= 70) grade = "B";
+    else if (percentage >= 60) grade = "C";
+    else if (percentage >= 50) grade = "D";
+    else grade = "F";
+
+   
+    let failedSubjects = [];
+    for (let i = 0; i < marks.length; i++) {
+        if (marks[i] < 40) {
+            failedSubjects.push(subjects[i]);
+        }
+    }
+
+    let message = "";
+    if (failedSubjects.length > 0) {
+        message += `Sorry ${name}, you failed in: ${failedSubjects.join(", ")}.<br>`;
+        message += `Total Marks: ${total}<br>`;
+        message += `Percentage: ${percentage.toFixed(2)}%<br>`;
+        message += `Grade: ${grade}`;
+        result.style.color = "red";
+    } else {
+        message += `Congratulations ${name}, you passed all subjects!<br>`;
+        message += `Total Marks: ${total}<br>`;
+        message += `Percentage: ${percentage.toFixed(2)}%<br>`;
+        message += `Grade: ${grade}`;
+        result.style.color = "green";
+    }
+
+    result.innerHTML = message;
 }
+
 
 </script>
 
