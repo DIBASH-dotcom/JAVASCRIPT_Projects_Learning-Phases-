@@ -3,240 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login System</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .container {
-            background: #fff;
-            padding: 25px 30px;
-            width: 320px;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        label {
-            font-size: 14px;
-            color: #555;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            margin-bottom: 4px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        input:disabled {
-            background: #eee;
-            cursor: not-allowed;
-        }
-
-        span {
-            font-size: 12px;
-            height: 14px;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 15px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #5a67d8;
-        }
-
-        #result {
-            text-align: center;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-    </style>
+    <title>Student Result System</title>
 </head>
-
 <body>
 
-<div class="container">
-    <h2>Login Form</h2>
+    <label>Student Name:</label>
+    <input type="text" id="name" placeholder="Enter Your Name" oninput="StudentName()"><br><br>
+     <span id="nameError"></span><br>
 
-    <label>User Name</label>
-    <input type="text" id="name" placeholder="Enter Your User Name" oninput="checkName()">
-    <span id="nameError"></span>
+    <label>Subject 1 Name:</label>
+    <input type="text" id="subject1" placeholder="Enter Subject 1 Name" oninput="subjectname()" ><br>
+    <span id="subjecterror1"></span><br>
 
-    <label>Password</label>
-    <input type="password" id="password" placeholder="Enter Your Password" oninput="checkPassword()">
-    <span id="passworderror"></span>
+    <label>Marks:</label>
+    <input type="number" id="marks1" placeholder="Enter Marks" oninput="marks()"><br><br>
+     <span id="markserro1"></span><br>
 
-    <button type="button" onclick="submit_form()">Login</button>
+    <label>Subject 2 Name:</label>
+    <input type="text" id="subject2" placeholder="Enter Subject 2 Name" oninput="subjectname()" ><br>
+  <span id="subjecterror2"></span><br>
+
+    <label>Marks:</label>
+    <input type="number" id="marks2" placeholder="Enter Marks" oninput="marks()"><br><br>
+     <span id="markserro2"></span><br>
+
+    <label>Subject 3 Name:</label>
+    <input type="text" id="subject3" placeholder="Enter Subject 3 Name"  oninput="subjectname()" ><br>
+    <span id="subjecterror3"></span><br>
+    <label>Marks:</label>
+    <input type="number" id="marks3" placeholder="Enter Marks" oninput="marks()"><br><br>
+     <span id="markserro3"></span><br>
+
+    <label>Subject 4 Name:</label>
+    <input type="text" id="subject4" placeholder="Enter Subject 4 Name" oninput="subjectname()" ><br>
+    <span id="subjecterror4"></span><br>
+    <label>Marks:</label>
+    <input type="number" id="marks4" placeholder="Enter Marks"oninput="marks()"><br><br>
+     <span id="markserro4"></span><br>
+
+    <label>Subject 5 Name:</label>
+    <input type="text" id="subject5" placeholder="Enter Subject 5 Name" oninput="subjectname()" ><br>
+    <span id="subjecterror5"></span><br>
+    <label>Marks:</label>
+    <input type="number" id="marks5" placeholder="Enter Marks" oninput="marks()"><br><br>
+     <span id="markserro5"></span><br>
+
+    <button onclick="checkResult()">Check Result</button>
+
     <p id="result"></p>
-</div>
+
 
 <script>
-let emptyPasswordAttempts = 0;
-let isBlocked = false;
 
-
-
-function checkName() {
+function StudentName() {
+    let nameError = document.getElementById("nameError");
+    let namepattern = /^[A-Za-z\s]+$/;
     let name = document.getElementById("name").value;
-    let error = document.getElementById("nameError");
-    let namepattern = /^[a-zA-Z\s]+$/;
 
-    if (name === "") {
-        error.innerText = " User Name is required";
-        error.style.color = "red";
-     
-    }  else if(!namepattern.test(name)) {
-        error.innerText ="username must conatin leeter like dibash,a,b c";
-        error.style.color ="red";
-      
+    if(!namepattern.test(name)) {
+        nameError.innerText ="Invaild Name .Only leeters and soaces are alloowed like dibash,a,b,c";
+        nameError.style.color ="red";
+    }  else if(name.length <0) {
+        nameError.innerText ="username is requirded";
+        nameError.style.color ="red";
     } else {
-        error.innerText = "";
+        nameError.innerText ="";
     }
+
 }
 
-function checkPassword() {
-    let password = document.getElementById("password").value;
-    let error = document.getElementById("passworderror");
+function marks() {
+    let markserro1 = document.getElementById("markserro1");
+    let markserro2 = document.getElementById("markserro2");
+    let markserro3 = document.getElementById("markserro3");
+    let markserro4 = document.getElementById("markserro4");
+    let markserro5 = document.getElementById("markserro5");
 
-    if (password === "") {
-        error.innerText = "Password is required";
-        error.style.color = "red";
-    } else if(password.length < 6) {
-        error.innerText = "Password must be at least 6 characters";
-        error.style.color = "red";
-    } else {
-        error.innerText = "";
-}
-}
+    let marks1 = document.getElementById("marks1").value;
+    let marks2 = document.getElementById("marks2").value;
+    let marks3 = document.getElementById("marks3").value;
+    let marks4 = document.getElementById("marks4").value;
+    let marks5 = document.getElementById("marks5").value;
 
-function submit_form() {
-    let result = document.getElementById("result");
-
-    if (isBlocked) {
-        result.innerText = "Too many attempts. Login blocked.";
-        result.style.color = "red";
-        return;
-    }
-
-    let name = document.getElementById("name").value;
-    let password = document.getElementById("password").value;
-
-  
-    if (name === "" && password === "") {
-        result.innerText = "User Name and Password are required";
-        result.style.color = "red";
-        return;
-    }
-
-    if (name === "") {
-        result.innerText = "User Name is required";
-        result.style.color = "red";
-        return;
-    }
-    if (password === "") {
-        result.innerText = "Password is required";
-        result.style.color = "red";
-        return;
-    }
     
+    markserro1.innerText = (marks1 < 0 || marks1 > 100) ? "Invalid Marks. Must be 0-100" : "";
+    markserro2.innerText = (marks2 < 0 || marks2 > 100) ? "Invalid Marks. Must be 0-100" : "";
+    markserro3.innerText = (marks3 < 0 || marks3 > 100) ? "Invalid Marks. Must be 0-100" : "";
+    markserro4.innerText = (marks4 < 0 || marks4 > 100) ? "Invalid Marks. Must be 0-100" : "";
+    markserro5.innerText = (marks5 < 0 || marks5 > 100) ? "Invalid Marks. Must be 0-100" : "";
+
     
-
-  
-    if (name === "admin" && password === "123456") {
-        result.innerText = "Login Successfully";
-        result.style.color = "green";
-        emptyPasswordAttempts = 0; 
-        return;
-    }
-
-  
-    emptyPasswordAttempts++;
-
-    result.innerText =
-        "Wrong password. Attempts left: " + (6 - emptyPasswordAttempts);
-    result.style.color = "red";
-
-  
-    if (emptyPasswordAttempts >= 6) {
-        isBlocked = true;
-        result.innerText = "Too many wrong attempts. You are blocked.";
-        document.getElementById("name").disabled = true;
-        document.getElementById("password").disabled = true;
-    }
+    [markserro1, markserro2, markserro3, markserro4, markserro5].forEach(span => {
+        if(span.innerText !== "") {
+            span.style.color = "red";
+        }
+    });
 }
 
+function subjectname() { 
+
+    let subjectpattern =  /^[A-Za-z\s]+$/;
+
+    let subject1 = document.getElementById("subject1").value;
+    let subject2 = document.getElementById("subject2").value;
+    let subject3 = document.getElementById("subject3").value;
+    let subject4 = document.getElementById("subject4").value;
+    let subject5 = document.getElementById("subject5").value;
+
+    
+    let subjecterror1 = document.getElementById("subjecterror1");
+    let subjecterror2 = document.getElementById("subjecterror2");
+    let subjecterror3 = document.getElementById("subjecterror3");
+     let subjecterror4 = document.getElementById("subjecterror4");
+      let subjecterror5 = document.getElementById("subjecterror5");
+
+
+      if(!subjectpattern.test(document.getElementById("subject1").value)) {
+        subjecterror1.innerText ="Invalid Subject Name .Only letters and spaces are allowed";
+        subjecterror1.style.color ="red";
+      } else {
+        subjecterror1.innerText ="";
+      }
+
+      if(!subjectpattern.test(document.getElementById("subject2").value)) {
+        subjecterror2.innerText ="Invalid Subject Name .Only letters and spaces are allowed";
+        subjecterror2.style.color ="red";
+      } else {
+        subjecterror2.innerText ="";
+      }
+
+      if(!subjectpattern.test(document.getElementById("subject3").value)) {
+        subjecterror3.innerText ="Invalid Subject Name .Only letters and spaces are allowed";
+        subjecterror3.style.color ="red";
+      } else {
+        subjecterror3.innerText ="";
+      }
+
+      if(!subjectpattern.test(document.getElementById("subject4").value)) {
+        subjecterror4.innerText ="Invalid Subject Name .Only letters and spaces are allowed";
+        subjecterror4.style.color ="red";
+      } else {
+        subjecterror4.innerText ="";
+      }
+
+      if(!subjectpattern.test(document.getElementById("subject5").value)) {
+        subjecterror5.innerText ="Invalid Subject Name .Only letters and spaces are allowed";
+        subjecterror5.style.color ="red";
+      } else {
+        subjecterror5.innerText ="";
+      }
+}
+
+    function checkResult() {
+       
+        let subject1 = document.getElementById("subject1").value;
+        let marks1 = document.getElementById("marks1").value;
+
+       
+        let subject2 = document.getElementById("subject2").value;  
+        let marks2 = document.getElementById("marks2").value;
+        
+         let subject3 = document.getElementById("subject3").value;
+         let marks3 = document.getElementById("marks3").value;
+
+          let subject4= document.getElementById("subject4").value;
+          let marks4 = document.getElementById("marks4").value;
+
+
+           let subject5 = document.getElementById("subject5").value;
+           let marks5 = document.getElementById("marks5").value;
+        
+        let result = document.getElementById("result");
+
+        let missingsfields=[];
+
+        
+        if( subject1 ==="") {
+            missingsfields.push("Subject 1 Name is necessary ");
+        }
+
+        if(subject2 ==="") {
+            missingsfields.push("Subhect 2 is  name is necessary ");
+        }
+
+        if(subject3 ==="") {
+            missingsfields.push("Subhect 3 is  name is necessary ");
+        }
+
+        if(subject4 ==="") {
+            missingsfields.push("Subhect 4 is  name is necessary ");
+        }
+
+        if(subject5 ==="") {
+            missingsfields.push("Subhect 5 is  name is necessary ");
+        }
+
+
+        if(marks1 ==="") {
+            missingsfields.push("Marks for Subject 1 is invalid");
+        }
+
+        if(marks2 ==="") {
+            missingsfields.push("Marks for Subejct 2 is invalid")
+        }
+
+        if(marks3 ==="") {
+            missingsfields.push("Marks for Subject 3 is invalid");
+        }
+
+        if(marks4 === "") {
+            missingsfields.push("Makrs for Subejct 4 is invalid");
+        }
+
+        if(marks5 ==="")  {
+            missingsfields.push("Makrs for subehct 5 is invalid");
+        }
+
+        
+        if(missingsfields.length > 0) {
+            result.innerHTML ="Please fill the following fields :<br> " + missingsfields.join(",  <br>");
+            result.style.color = "red";
+            return;
+        }
+
+        
+
+   
+
+       
+    }
 </script>
-
-
-<!--
-CHANGES MADE IN THIS VERSION:
-
-1. Strengthened username validation:
-   - Added regex validation to allow only letters and spaces.
-   - Prevents numeric and special characters in username input.
-   - Provides real-time feedback when format is invalid.
-
-2. Restored and enforced password rules:
-   - Password must be at least 6 characters long.
-   - Validation occurs in real time via `checkPassword()`.
-
-3. Improved validation flow:
-   - Handles the following cases explicitly:
-     a) both fields empty
-     b) username empty
-     c) password empty
-     d) invalid username format
-     e) short password
-   - Each case shows a specific, user-friendly message.
-
-4. Login attempt limiting (client-side):
-   - Counts failed login attempts due to wrong credentials.
-   - Blocks login after 6 failed attempts.
-   - Disables input fields once blocked.
-   - Successful login resets attempt counter.
-
-IMPORTANT LIMITATIONS:
-- All validation and blocking are client-side only.
-- Page refresh resets the block.
-- This is UI logic, NOT real authentication security.
-
-WHY THIS MATTERS:
-- Demonstrates layered validation (empty → format → length).
-- Shows state handling using counters and flags.
-- Improves code readability and future maintainability.
--->
-
 </body>
+
 </html>
