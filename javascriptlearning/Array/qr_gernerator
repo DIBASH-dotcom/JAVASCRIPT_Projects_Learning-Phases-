@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Generator</title>
+</head>
+<body>
+    <label> Enter Your Name:</label>
+    <input type="text" id="name" placeholder="Enter Your Name">
+
+    <label> Enter Your Age:</label>
+    <input type="number" id="age" placeholder="Enter Your Age">
+
+
+    <label> Enter Your City :</label>
+    <input type="text" id="city" placeholder="Enter your City">
+
+    <button id="generateBtn">Generate QR Code</button>
+</body>
+</html>
