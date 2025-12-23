@@ -1,606 +1,86 @@
-=<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Code Generator</title>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    body {
-        background-color: #f5f7fa;
-        color: #333;
-        line-height: 1.6;
-        padding: 20px;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .container {
-        max-width: 800px;
-        width: 100%;
-        background-color: white;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        padding: 40px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-    }
-    
-    @media (max-width: 768px) {
-        .container {
-            grid-template-columns: 1fr;
-            padding: 25px;
-        }
-    }
-    
-    h1 {
-        color: #2c3e50;
-        margin-bottom: 10px;
-        font-size: 2.5rem;
-        grid-column: 1 / -1;
-        text-align: center;
-    }
-    
-    .subtitle {
-        color: #7f8c8d;
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 1.1rem;
-        grid-column: 1 / -1;
-    }
-    
-    .form-section, .qr-section {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .form-section h2, .qr-section h2 {
-        color: #3498db;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #f0f0f0;
-        font-size: 1.5rem;
-    }
-    
-    .form-group {
-        margin-bottom: 20px;
-    }
-    
-    label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #2c3e50;
-        font-size: 1rem;
-    }
-    
-    input {
-        width: 100%;
-        padding: 14px 16px;
-        border: 2px solid #e0e0e0;
-        border-radius: 10px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        background-color: #f9f9f9;
-    }
-    
-    input:focus {
-        outline: none;
-        border-color: #3498db;
-        background-color: #fff;
-        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-    }
-    
-    input.valid {
-        border-color: #2ecc71;
-        background-color: rgba(46, 204, 113, 0.05);
-    }
-    
-    input.invalid {
-        border-color: #e74c3c;
-        background-color: rgba(231, 76, 60, 0.05);
-    }
-    
-    .error {
-        color: #e74c3c;
-        font-size: 0.9rem;
-        margin-top: 6px;
-        min-height: 20px;
-        display: block;
-    }
-    
-    .qr-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 25px;
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        min-height: 300px;
-        border: 2px dashed #e0e0e0;
-        margin-bottom: 20px;
-    }
-    
-    #qrcode {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 200px;
-        width: 100%;
-    }
-    
-    #qrcode canvas, #qrcode img {
-        border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .placeholder-text {
-        color: #95a5a6;
-        text-align: center;
-        font-size: 1rem;
-        line-height: 1.5;
-    }
-    
-    .data-preview {
-        background-color: #f9f9f9;
-        padding: 20px;
-        border-radius: 10px;
-        margin-top: 20px;
-        border-left: 4px solid #3498db;
-    }
-    
-    .data-preview h3 {
-        color: #2c3e50;
-        margin-bottom: 10px;
-        font-size: 1.2rem;
-    }
-    
-    .data-preview p {
-        white-space: pre-line;
-        color: #555;
-        font-family: monospace;
-        font-size: 1rem;
-    }
-    
-    .buttons {
-        display: flex;
-        gap: 15px;
-        margin-top: 10px;
-    }
-    
-    button {
-        padding: 14px 28px;
-        border: none;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        flex: 1;
-    }
-    
-    #generateBtn {
-        background-color: #3498db;
-        color: white;
-    }
-    
-    #generateBtn:hover {
-        background-color: #2980b9;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
-    }
-    
-    #generateBtn:active {
-        transform: translateY(0);
-    }
-    
-    #resetBtn {
-        background-color: #f8f9fa;
-        color: #555;
-        border: 2px solid #e0e0e0;
-    }
-    
-    #resetBtn:hover {
-        background-color: #e9ecef;
-        border-color: #bdc3c7;
-    }
-    
-    #result {
-        margin-top: 20px;
-        padding: 15px;
-        border-radius: 10px;
-        text-align: center;
-        font-weight: 600;
-        min-height: 20px;
-        grid-column: 1 / -1;
-    }
-    
-    .success {
-        background-color: rgba(46, 204, 113, 0.1);
-        color: #27ae60;
-        border: 1px solid #2ecc71;
-    }
-    
-    .error-message {
-        background-color: rgba(231, 76, 60, 0.1);
-        color: #c0392b;
-        border: 1px solid #e74c3c;
-    }
-    
-    .qr-controls {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-        align-items: center;
-    }
-    
-    .size-control {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .size-control label {
-        margin-bottom: 0;
-        white-space: nowrap;
-    }
-    
-    .size-control input {
-        width: 80px;
-        padding: 8px 12px;
-    }
-    
-    .download-btn {
-        background-color: #2ecc71;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-        display: none;
-        transition: all 0.3s ease;
-    }
-    
-    .download-btn:hover {
-        background-color: #27ae60;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
-    }
-    
-    footer {
-        margin-top: 40px;
-        text-align: center;
-        color: #7f8c8d;
-        font-size: 0.9rem;
-        grid-column: 1 / -1;
-    }
-    
-    .instructions {
-        margin-top: 15px;
-        font-size: 0.9rem;
-        color: #7f8c8d;
-        line-height: 1.5;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Genrator</title>
 </head>
-
 <body>
-    <div class="container">
-        <h1>QR Code Generator</h1>
-        <p class="subtitle">Fill in your details below to generate a personalized QR code</p>
-        
-        <div class="form-section">
-            <h2>Personal Information</h2>
-            
-            <div class="form-group">
-                <label for="name">Full Name:</label>
-                <input type="text" id="name" placeholder="Enter your full name">
-                <span class="error" id="nameError"></span>
-                <p class="instructions">Only letters and spaces are allowed</p>
-            </div>
-            
-            <div class="form-group">
-                <label for="age">Age:</label>
-                <input type="number" id="age" placeholder="Enter your age">
-                <span class="error" id="ageError"></span>
-                <p class="instructions">Must be between 1 and 120 years</p>
-            </div>
-            
-            <div class="form-group">
-                <label for="city">City:</label>
-                <input type="text" id="city" placeholder="Enter your city">
-                <span class="error" id="cityError"></span>
-                <p class="instructions">Only letters and spaces are allowed</p>
-            </div>
-            
-            <div class="buttons">
-                <button id="generateBtn">Generate QR Code</button>
-                <button id="resetBtn">Reset Form</button>
-            </div>
-            
-            <div id="result"></div>
-        </div>
-        
-        <div class="qr-section">
-            <h2>Generated QR Code</h2>
-            
-            <div class="qr-container">
-                <div id="qrcode">
-                    <p class="placeholder-text">Your QR code will appear here after filling the form and clicking "Generate QR Code"</p>
-                </div>
-            </div>
-            
-            <div class="qr-controls">
-                <div class="size-control">
-                    <label for="qrSize">Size:</label>
-                    <input type="number" id="qrSize" min="100" max="400" value="200">
-                    <span>px</span>
-                </div>
-                <a id="downloadBtn" class="download-btn" download="qrcode.png">Download QR Code</a>
-            </div>
-            
-            <div class="data-preview">
-                <h3>Data to be encoded:</h3>
-                <p id="dataPreview">No data entered yet.</p>
-            </div>
-        </div>
-        
-        <footer>
-            <p>QR Code Generator &copy; 2023 | Uses QRCode.js library</p>
-        </footer>
-    </div>
+    <label> Name:</label>
+    <input type="text" id="name" placeholder="Enter Your Name">
 
-<script>
-    // DOM elements
-    const nameInput = document.getElementById('name');
-    const ageInput = document.getElementById('age');
-    const cityInput = document.getElementById('city');
-    const qrSizeInput = document.getElementById('qrSize');
-    const generateBtn = document.getElementById('generateBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const qrcodeDiv = document.getElementById('qrcode');
-    const resultDiv = document.getElementById('result');
-    const dataPreview = document.getElementById('dataPreview');
+    <label> Last Name:</label>
+    <input type="text" id="last" placeholder="Enter Your Last Name">
+
+    <label for="dob"> Date Of Birth:</label>
+    <input type="date" id="dob">
+
+        <label> Age:</label>
+        <input type="number" id="age" placeholder="Enter Your Age">
+
+        <label> Phone Number:</label>
+        <input type="number" id="Phonenumber"  placeholder="Enter Your Phone Number" oninput="validatePhoneNumber()">
+        <span id="errorPhonenumber"></span>
+
+        <button onclick="calculate()"> calculate</button>
+<p id="result"></p>
+
     
-    // Error elements
-    const nameError = document.getElementById('nameError');
-    const ageError = document.getElementById('ageError');
-    const cityError = document.getElementById('cityError');
-    
-    // Validation patterns
-    const namePattern = /^[A-Za-z\s]+$/;
-    const cityPattern = /^[A-Za-z\s]+$/;
-    
-    // Initialize with sample data for demo
-    window.addEventListener('DOMContentLoaded', () => {
-        nameInput.value = "John Doe";
-        ageInput.value = "30";
-        cityInput.value = "New York";
-        updateDataPreview();
-        validateAllFields();
-    });
-    
-    // Update data preview in real-time
-    function updateDataPreview() {
-        const name = nameInput.value.trim();
-        const age = ageInput.value.trim();
-        const city = cityInput.value.trim();
-        
-        if (name || age || city) {
-            dataPreview.textContent = `Name: ${name || "Not provided"}\nAge: ${age || "Not provided"}\nCity: ${city || "Not provided"}`;
-        } else {
-            dataPreview.textContent = "No data entered yet.";
+    <script>
+
+        function calculate(){
+
+            let name= document.getElementById("name").value;
+            let last=document.getElementById("last").value;
+            let dob= document.getElementById("dob").value;
+             let age= document.getElementById("age").value;
+            let Phonenumber= document.getElementById("Phonenumber").value;
+            let result= document.getElementById("result")
+            let misssing=[];
+            if(name ==="") {
+                misssing.push("Name");
+            }
+
+            if(last ==="") {
+                misssing.push("Last Name");
+            }
+
+        if(dob==="") {
+            misssing.push("Date Of Birth ");
         }
-    }
-    
-    // Validate name field
-    function validateName() {
-        const name = nameInput.value.trim();
-        let isValid = true;
-        
-        if (!name) {
-            nameError.textContent = "Name is required";
-            nameInput.classList.add('invalid');
-            nameInput.classList.remove('valid');
-            isValid = false;
-        } else if (!namePattern.test(name)) {
-            nameError.textContent = "Only letters and spaces allowed";
-            nameInput.classList.add('invalid');
-            nameInput.classList.remove('valid');
-            isValid = false;
-        } else {
-            nameError.textContent = "";
-            nameInput.classList.remove('invalid');
-            nameInput.classList.add('valid');
+
+        if(age==="") {
+            misssing.push("Age")
         }
-        
-        updateDataPreview();
-        return isValid;
-    }
-    
-    // Validate age field
-    function validateAge() {
-        const age = parseInt(ageInput.value);
-        let isValid = true;
-        
-        if (!ageInput.value) {
-            ageError.textContent = "Age is required";
-            ageInput.classList.add('invalid');
-            ageInput.classList.remove('valid');
-            isValid = false;
-        } else if (isNaN(age) || age < 1 || age > 120) {
-            ageError.textContent = "Enter a valid age (1-120)";
-            ageInput.classList.add('invalid');
-            ageInput.classList.remove('valid');
-            isValid = false;
-        } else {
-            ageError.textContent = "";
-            ageInput.classList.remove('invalid');
-            ageInput.classList.add('valid');
+        if(Phonenumber==="") {
+            misssing.push("Phone Number");
         }
-        
-        updateDataPreview();
-        return isValid;
+    if(misssing.length>0) {
+        result.innerHTML="Please Enter The Following fields:<br>" +misssing.join(",<br>");
+        result.style.color="red";
+        return;
+
     }
-    
-    // Validate city field
-    function validateCity() {
-        const city = cityInput.value.trim();
-        let isValid = true;
-        
-        if (!city) {
-            cityError.textContent = "City is required";
-            cityInput.classList.add('invalid');
-            cityInput.classList.remove('valid');
-            isValid = false;
-        } else if (!cityPattern.test(city)) {
-            cityError.textContent = "Only letters and spaces allowed";
-            cityInput.classList.add('invalid');
-            cityInput.classList.remove('valid');
-            isValid = false;
-        } else {
-            cityError.textContent = "";
-            cityInput.classList.remove('invalid');
-            cityInput.classList.add('valid');
+   
+
         }
-        
-        updateDataPreview();
-        return isValid;
-    }
-    
-    // Validate all fields
-    function validateAllFields() {
-        const isNameValid = validateName();
-        const isAgeValid = validateAge();
-        const isCityValid = validateCity();
-        
-        return isNameValid && isAgeValid && isCityValid;
-    }
-    
-    // Generate QR Code
-    function generateQR() {
-        // Clear previous result
-        resultDiv.textContent = "";
-        resultDiv.className = "";
-        
-        // Validate all fields
-        if (!validateAllFields()) {
-            resultDiv.textContent = "Please fix all errors before generating QR code";
-            resultDiv.classList.add('error-message');
-            return;
-        }
-        
-        // Get values
-        const name = nameInput.value.trim();
-        const age = ageInput.value.trim();
-        const city = cityInput.value.trim();
-        const size = parseInt(qrSizeInput.value) || 200;
-        
-        // Limit size between 100 and 400
-        const qrSize = Math.min(Math.max(size, 100), 400);
-        qrSizeInput.value = qrSize;
-        
-        // Create data string
-        const data = `Name: ${name}\nAge: ${age}\nCity: ${city}`;
-        
-        // Clear previous QR code
-        qrcodeDiv.innerHTML = "";
-        
-        // Generate new QR code
-        try {
-            new QRCode(qrcodeDiv, {
-                text: data,
-                width: qrSize,
-                height: qrSize,
-                colorDark: "#2c3e50",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
+
+        function validatePhoneNumber() {
+
+            let phone =document.getElementById("PhoneNumber").value;
+
+            let errorPhoneNumber= document.getElementById("errorPhonenumber").value;
             
-            // Show success message
-            resultDiv.textContent = "QR code generated successfully!";
-            resultDiv.classList.add('success');
-            
-            // Enable download button after a short delay (to ensure QR code is rendered)
-            setTimeout(() => {
-                const qrCanvas = qrcodeDiv.querySelector('canvas');
-                if (qrCanvas) {
-                    const qrImage = qrCanvas.toDataURL('image/png');
-                    downloadBtn.href = qrImage;
-                    downloadBtn.style.display = 'inline-block';
-                }
-            }, 300);
-            
-        } catch (error) {
-            resultDiv.textContent = "Error generating QR code: " + error.message;
-            resultDiv.classList.add('error-message');
+if(phone.length>10) {
+    error.innerText ="Phone NuMBERS mUST BE EXATLY 10 DIGITIS";
+    error.innerText ="red";
+    
+} else {
+    error.innerText =""
+}
+
+
         }
-    }
-    
-    // Reset form
-    function resetForm() {
-        nameInput.value = "";
-        ageInput.value = "";
-        cityInput.value = "";
-        qrSizeInput.value = "200";
-        
-        nameError.textContent = "";
-        ageError.textContent = "";
-        cityError.textContent = "";
-        
-        nameInput.classList.remove('valid', 'invalid');
-        ageInput.classList.remove('valid', 'invalid');
-        cityInput.classList.remove('valid', 'invalid');
-        
-        qrcodeDiv.innerHTML = '<p class="placeholder-text">Your QR code will appear here after filling the form and clicking "Generate QR Code"</p>';
-        resultDiv.textContent = "";
-        resultDiv.className = "";
-        dataPreview.textContent = "No data entered yet.";
-        downloadBtn.style.display = 'none';
-        
-        // Set focus to first field
-        nameInput.focus();
-    }
-    
-    // Event listeners
-    nameInput.addEventListener('input', validateName);
-    ageInput.addEventListener('input', validateAge);
-    cityInput.addEventListener('input', validateCity);
-    qrSizeInput.addEventListener('input', () => {
-        // If QR code exists, regenerate with new size
-        if (qrcodeDiv.querySelector('canvas')) {
-            generateQR();
-        }
-    });
-    
-    generateBtn.addEventListener('click', generateQR);
-    resetBtn.addEventListener('click', resetForm);
-    
-    // Allow Enter key to generate QR code
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && validateAllFields()) {
-            generateQR();
-        }
-    });
-    
-    // Add input event listeners for real-time validation
-    nameInput.addEventListener('blur', validateName);
-    ageInput.addEventListener('blur', validateAge);
-    cityInput.addEventListener('blur', validateCity);
-</script>
+    </script>
 </body>
 </html>
-
