@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Generator</title>
-    <!-- jQuery लाइब्रेरी थप्यो -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nepali-datepicker-reactjs@2.0.2/nepali.datepicker.v2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/nepali-datepicker-reactjs@2.0.2/nepali.datepicker.v2.min.js"></script>
+    <title>QR Genrator</title>
 </head>
 <body>
     <label> Name:</label>
@@ -19,141 +15,148 @@
     <span id="errorLast"></span>
 
     <label for="dob"> Date Of Birth:</label>
-    <select id="calenderType" onchange="toggleCalender()">
-        <option value="ad">AD</option>
-        <option value="bs">BS</option>
-    </select>
+   <select id="calenderType" onchange="toggleCalender()">
+    <option value="ad">AD</option>
+    <option value="bs">BS</option>
+    
+   </select>
+   
 
-    <!-- DOB inputs -->
-    <input type="date" id="dobAD" style="display:inline-block;">
-    <input type="text" id="dobBS" style="display:none;" placeholder="YYYY-MM-DD">
 
-    <label> Age:</label>
-    <input type="number" id="age" placeholder="Enter Your Age" oninput="validateAge()">
-    <span id="errorAge"></span>
+        <label> Age:</label>
+        <input type="number" id="age" placeholder="Enter Your Age" oninput="ValidateAge()">
+        <span id="errorAge"></span>
 
-    <label> Phone Number:</label>
-    <input type="text" value="+977" id="Phonenumber" placeholder="Enter Your Phone Number" oninput="validatePhoneNumber()">
-    <span id="errorPhonenumber"></span>
+        <label> Phone Number:</label>
+        <input type="number"  value="+977" id="Phonenumber"  placeholder="Enter Your Phone Number" oninput="validatePhoneNumber()">
+        <span id="errorPhonenumber"></span>
 
-    <button onclick="calculate()"> Generate</button>
-    <p id="result"></p>
+        <button onclick="calculate()"> Generate</button>
+<p id="result"></p>
 
-<script>
-function calculate(){
-    let name= document.getElementById("name").value;
-    let last=document.getElementById("last").value;
-    let dobAD = document.getElementById("dobAD").value;
-    let dobBS = document.getElementById("dobBS").value;
-    let type = document.getElementById("calenderType").value;
-    let dob = type === "ad" ? dobAD : dobBS;
+    
+    <script>
 
-    let age= document.getElementById("age").value;
-    let Phonenumber= document.getElementById("Phonenumber").value;
-    let result= document.getElementById("result");
+        function calculate(){
 
-    let misssing=[];
-    if(name ==="") misssing.push("Name");
-    if(last ==="") misssing.push("Last Name");
-    if(dob==="") misssing.push("Date Of Birth");
-    if(age==="") misssing.push("Age");
-    if(Phonenumber==="") misssing.push("Phone Number");
+            let name= document.getElementById("name").value;
+            let last=document.getElementById("last").value;
+            let dob= document.getElementById("dob").value;
+             let age= document.getElementById("age").value;
+            let Phonenumber= document.getElementById("Phonenumber").value;
+            let result= document.getElementById("result")
 
+            let misssing=[];
+            if(name ==="") {
+                misssing.push("Name");
+            }
+
+            if(last ==="") {
+                misssing.push("Last Name");
+            }
+
+        if(dob==="") {
+            misssing.push("Date Of Birth ");
+        }
+
+        if(age==="") {
+            misssing.push("Age")
+        }
+        if(Phonenumber==="") {
+            misssing.push("Phone Number");
+        }
     if(misssing.length>0) {
-        result.innerHTML="Please Enter The Following fields:<br>" + misssing.join(",<br>");
+        result.innerHTML="Please Enter The Following fields:<br>" +misssing.join(",<br>");
         result.style.color="red";
         return;
+
     }
 
-    result.innerHTML = `Name: ${name} ${last}<br>DOB: ${dob}<br>Age: ${age}<br>Phone: ${Phonenumber}`;
-    result.style.color="green";
-}
+   
+   
 
-function validatePhoneNumber() {
-    let phone = document.getElementById("Phonenumber").value;
-    let errorPhoneNumber= document.getElementById("errorPhonenumber");
+        }
 
-    if(!/^\+977\d{7,10}$/.test(phone)) {
-        errorPhoneNumber.innerText = "Invalid number, must start +977 and 7-10 digits after";
-        errorPhoneNumber.style.color="red";      
-    } else {
-        errorPhoneNumber.innerText ="";
-    }
-}
+        function validatePhoneNumber() {
 
-function validateName() {
-    let name= document.getElementById("name").value.trim();
-    let errorName=document.getElementById("errorName");
-    let namepattern = /^[A-Za-z\s]+$/;
+            let phone =document.getElementById("Phonenumber").value;
 
-    if (name===""){
-        errorName.innerText="User Name is required";
-        errorName.style.color="red";
-    }
-    else if(!namepattern.test(name)) {
-        errorName.innerText="Invalid Name, must contain only letters";
-        errorName.style.color="red";
-    } else {
-        errorName.innerText="";
-    }
-}
+            let errorPhoneNumber= document.getElementById("errorPhonenumber");
+  
+            let phones= parseInt(phone)
+            if(phone.length>10) {
+                errorPhoneNumber.innerText="Number must be upto10";
+                errorPhoneNumber.style.color="red";      
+            } 
+            else {
+                errorPhoneNumber.innerText =""
+            }
 
-function validateAge() {
-    let age=document.getElementById("age").value;
-    let errorAge= document.getElementById("errorAge");
+        }
 
-    let number= parseInt(age);
-    if(number > 99) {
-        errorAge.innerText="Age must be max 2 digits";
+        function validateName() {
+            let name= document.getElementById("name").value.trim();
+            let errorName=document.getElementById("errorName");
+ let namepattern = /^[A-Za-z\s]+$/;
+    
+   if (name===""){
+                errorName.innerText="User Name is requirded";
+                errorName.style.color="red";
+            }
+             else if(!namepattern.test(name)) {
+                errorName.textContent="Invaild Name.name must be in leerters or word like dibash";
+         errorName.style.color="red";
+            } 
+           
+            else {
+                errorName.innerText="";
+               
+            }
+        }
+
+        function ValidateAge () {
+            let age=document.getElementById("age").value;
+            let errorAge= document.getElementById("errorAge");
+
+            let number= parseInt(age);
+
+            if(age.length>2) {
+            errorAge.innerText="Age must be in 2 digitis buddy";
         errorAge.style.color="red";
-    } else {
-        errorAge.innerText="";
-    }
-}
+            }
 
-function validateLast(){
-    let last=document.getElementById("last").value.trim();
-    let errorLast= document.getElementById("errorLast");
-    let lastname= /^[A-Za-z\s]+$/;
 
+        }
+
+        function validateLast(){
+            let last=document.getElementById("last").value.trim();
+            let errorLast= document.getElementById("errorLast");
+
+            let lastname= /^[A-Za-z\s]+$/;
     if(last==="") {
-        errorLast.innerText="Last Name is required";
-        errorLast.style.color="red";
-    } else if(!lastname.test(last)) {
-        errorLast.innerText="Invalid Last Name, must contain only letters";
-        errorLast.style.color="red";
-    } else {
-        errorLast.innerText="";
+        errorLast.innerText="Last Name is requireded";
     }
-}
+ else  if(!lastname.test(last)) {
+                 errorLast.textContent="Invaild  Last Name.name must be in leerters or word like dibash";
+         errorLast.style.color="red";
+           }  
+           else {
+            errorLast.innerText="";
+           }
+        }
 
-function toggleCalender() {
-    const type = document.getElementById("calenderType").value;
-    if(type === "ad") {
-        document.getElementById("dobAD").style.display = "inline-block";
+        function toggleCalender() {
+            const type = document.getElementById("calenderType").value;
+            if(type ==="ad") {
+               document.getElementById("dobAD").style.display = "inline-block";
         document.getElementById("dobBS").style.display = "none";
     } else {
         document.getElementById("dobAD").style.display = "none";
         document.getElementById("dobBS").style.display = "inline-block";
     }
-}
+    
 
-window.onload = function() {
-    $('#dobBS').nepaliDatePicker({
-        npdMonth: true,
-        npdYear: true,
-        npdYearCount: 100
-    });
-};
-
-// Rough BS to AD conversion
-function bsToAd(bsDate) {
-    const parts = bsDate.split('-');
-    let year = parseInt(parts[0]) - 57; // Rough offset
-    let month = parseInt(parts[1]);
-    let day = parseInt(parts[2]);
-    return new Date(year, month - 1, day);
-}
-</script>
+        }
+    </script>
 </body>
 </html>
