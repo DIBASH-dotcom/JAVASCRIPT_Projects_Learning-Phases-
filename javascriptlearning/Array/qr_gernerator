@@ -7,22 +7,25 @@
 </head>
 <body>
     <label> Name:</label>
-    <input type="text" id="name" placeholder="Enter Your Name">
+    <input type="text" id="name" placeholder="Enter Your Name" oninput="validateName()">
+    <span id="errorName"></span>
 
     <label> Last Name:</label>
-    <input type="text" id="last" placeholder="Enter Your Last Name">
+    <input type="text" id="last" placeholder="Enter Your Last Name" oninput="validateLast()">
+    <span id="errorLast"></span>
 
     <label for="dob"> Date Of Birth:</label>
     <input type="date" id="dob">
 
         <label> Age:</label>
-        <input type="number" id="age" placeholder="Enter Your Age">
+        <input type="number" id="age" placeholder="Enter Your Age" oninput="ValidateAge()">
+        <span id="errorAge"></span>
 
         <label> Phone Number:</label>
-        <input type="number" id="Phonenumber"  placeholder="Enter Your Phone Number" oninput="validatePhoneNumber()">
+        <input type="number"  value="+977" id="Phonenumber"  placeholder="Enter Your Phone Number" oninput="validatePhoneNumber()">
         <span id="errorPhonenumber"></span>
 
-        <button onclick="calculate()"> calculate</button>
+        <button onclick="calculate()"> Generate</button>
 <p id="result"></p>
 
     
@@ -36,6 +39,7 @@
              let age= document.getElementById("age").value;
             let Phonenumber= document.getElementById("Phonenumber").value;
             let result= document.getElementById("result")
+
             let misssing=[];
             if(name ==="") {
                 misssing.push("Name");
@@ -61,25 +65,78 @@
         return;
 
     }
+
+   
    
 
         }
 
         function validatePhoneNumber() {
 
-            let phone =document.getElementById("PhoneNumber").value;
+            let phone =document.getElementById("Phonenumber").value;
 
-            let errorPhoneNumber= document.getElementById("errorPhonenumber").value;
-            
-if(phone.length>10) {
-    error.innerText ="Phone NuMBERS mUST BE EXATLY 10 DIGITIS";
-    error.innerText ="red";
+            let errorPhoneNumber= document.getElementById("errorPhonenumber");
+  
+            let phones= parseInt(phone)
+            if(phone.length>10) {
+                errorPhoneNumber.innerText="Number must be upto10";
+                errorPhoneNumber.style.color="red";      
+            } 
+            else {
+                errorPhoneNumber.innerText =""
+            }
+
+        }
+
+        function validateName() {
+            let name= document.getElementById("name").value.trim();
+            let errorName=document.getElementById("errorName");
+ let namepattern = /^[A-Za-z\s]+$/;
     
-} else {
-    error.innerText =""
-}
+   if (name===""){
+                errorName.innerText="User Name is requirded";
+                errorName.style.color="red";
+            }
+             else if(!namepattern.test(name)) {
+                errorName.textContent="Invaild Name.name must be in leerters or word like dibash";
+         errorName.style.color="red";
+            } 
+           
+            else {
+                errorName.innerText="";
+               
+            }
+        }
+
+        function ValidateAge () {
+            let age=document.getElementById("age").value;
+            let errorAge= document.getElementById("errorAge");
+
+            let number= parseInt(age);
+
+            if(age.length>2) {
+            errorAge.innerText="Age must be in 2 digitis buddy";
+        errorAge.style.color="red";
+            }
 
 
+        }
+
+        function validateLast(){
+            let last=document.getElementById("last").value.trim();
+            let errorLast= document.getElementById("errorLast");
+
+            let lastname= /^[A-Za-z\s]+$/;
+    if(last==="") {
+        errorLast.innerText="Last Name is requireded";
+    }
+ else  if(!lastname.test(last)) {
+                 errorLast.textContent="Invaild  Last Name.name must be in leerters or word like dibash";
+         errorLast.style.color="red";
+           }  
+           else {
+            errorLast.innerText="";
+           }
         }
     </script>
 </body>
