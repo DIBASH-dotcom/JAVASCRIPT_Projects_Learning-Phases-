@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <title>QR Generator</title>
 </head>
 <body>
@@ -14,6 +15,14 @@
 <input type="text" id="last" placeholder="Enter Your Last Name" oninput="validateLast()">
 <span id="errorLast"></span><br><br>
 
+<label>Gender:</label>
+<select id="Gender">
+    <option value=""></option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+    <option value="Other">Other</option>
+</select><br><br>
+
 <label>Date Of Birth:</label>
 <select id="calenderType" onchange="toggleCalender()">
     <option value="ad">AD</option>
@@ -21,9 +30,7 @@
 </select><br><br>
 
 <input type="date" id="dobAD">
-<input type="text" id="dobBS" placeholder="YYYY-MM-DD (BS)"
-       style="display:none;"
-       oninput="formatBSDob(); validateBSDob();">
+<input type="text" id="dobBS" placeholder="YYYY-MM-DD (BS)" style="display:none;" oninput="formatBSDob(); validateBSDob();">
 <span id="errorDob"></span><br><br>
 
 <label>Age:</label>
@@ -34,8 +41,9 @@
 <input type="text" id="Phonenumber" placeholder="98XXXXXXXX" oninput="validatePhoneNumber()">
 <span id="errorPhonenumber"></span><br><br>
 
-<button onclick="calculate()">Generate</button>
+<button onclick="calculate()">Generate QR</button>
 <p id="result"></p>
+<div id="qrcode"></div>
 
 <script>
 function toggleCalender() {
@@ -59,17 +67,18 @@ function validateBSDob() {
     const dob = document.getElementById("dobBS").value.trim();
     const error = document.getElementById("errorDob");
 
-    const bsPattern = /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+    // Simple BS format check: YYYY-MM-DD
+    const bsPattern = /^\d{4}-\d{2}-\d{2}$/;
 
     if (dob === "") {
-        error.innerText = "It is requirded";
-         error.style.color="red";
+        error.innerText = "Date of Birth is required";
+        error.style.color = "red";
         return false;
     }
 
     if (!bsPattern.test(dob)) {
-        error.innerText = "wrong it must ib bs ";
-         error.style.color="red";
+        error.innerText = "Invalid BS date format";
+        error.style.color = "red";
         return false;
     }
 
@@ -96,11 +105,11 @@ function validateName() {
     const pattern = /^[A-Za-z\s]+$/;
 
     if (name === "") {
-        error.innerText = "Name is requirdeded";
-        error.style.color="red";
+        error.innerText = "Name is required";
+        error.style.color = "red";
     } else if (!pattern.test(name)) {
-        error.innerText = "Name lettersonly";
-         error.style.color="red";
+        error.innerText = "Name must contain letters only";
+        error.style.color = "red";
     } else {
         error.innerText = "";
     }
@@ -112,11 +121,11 @@ function validateLast() {
     const pattern = /^[A-Za-z\s]+$/;
 
     if (last === "") {
-        error.innerText = "Last Name  is compulsory ";
-        error.style.color="red";
+        error.innerText = "Last Name is required";
+        error.style.color = "red";
     } else if (!pattern.test(last)) {
-        error.innerText = "Last Name  must be in leeters";
-         error.style.color="red";
+        error.innerText = "Last Name must contain letters only";
+        error.style.color = "red";
     } else {
         error.innerText = "";
     }
@@ -127,24 +136,19 @@ function ValidateAge() {
     const error = document.getElementById("errorAge");
 
     if (age === "" || age <= 0 || age > 120) {
-        error.innerText = "Age 1–120 yeasr ";
-         error.style.color="red";
+        error.innerText = "Age must be between 1–120";
+        error.style.color = "red";
     } else {
         error.innerText = "";
     }
 }
 
-
-
 function validatePhoneNumber() {
     const phoneInput = document.getElementById("Phonenumber");
     const error = document.getElementById("errorPhonenumber");
 
-    // केवल digits मात्र allow गर्ने
     phoneInput.value = phoneInput.value.replace(/\D/g, '');
-
     const phone = phoneInput.value;
-    const spacedPhone = phone.split('').join(' ');
     const count = phone.length;
 
     if (count === 0) {
@@ -152,17 +156,14 @@ function validatePhoneNumber() {
         return;
     }
 
-    // realtime display
     if (count !== 10) {
-        error.innerText = `entered number: ${count}`;
+        error.innerText = `Entered number: ${count}`;
         error.style.color = "red";
     } else {
-        error.innerText = `(total number: ${count}) - right!`;
+        error.innerText = `Total number: ${count} - valid!`;
         error.style.color = "green";
     }
 }
-
-
 
 function calculate() {
     const name = document.getElementById("name").value;
@@ -174,7 +175,10 @@ function calculate() {
 
     const age = document.getElementById("age").value;
     const phone = document.getElementById("Phonenumber").value;
+    const Gender = document.getElementById("Gender").value;
     const result = document.getElementById("result");
+    const qrcodeDiv= document.getElementById("qrcode");
+    qrcodeDiv.innerHTML = "";
 
     let missing = [];
     if (!name) missing.push("Name");
@@ -182,6 +186,7 @@ function calculate() {
     if (!dob) missing.push("Date Of Birth");
     if (!age) missing.push("Age");
     if (!phone) missing.push("Phone Number");
+    if (!Gender) missing.push("Gender");
 
     if (missing.length > 0) {
         result.innerHTML = "Fill these fields:<br>" + missing.join("<br>");
@@ -189,8 +194,16 @@ function calculate() {
         return;
     }
 
-    result.innerText = "All data valid ✔";
+    const data = `Name: ${name}\nLast Name: ${last}\nGender: ${Gender}\nDate of Birth: ${dob}\nAge: ${age}\nPhone Number: ${phone}`;
+
+    result.innerText = "QR Generated!";
     result.style.color = "green";
+
+    new QRCode(qrcodeDiv, {
+        text: data,
+        width: 200,
+        height: 200
+    });
 }
 </script>
 
