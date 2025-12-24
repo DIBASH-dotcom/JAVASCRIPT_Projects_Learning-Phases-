@@ -5,15 +5,188 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <title>QR Generator</title>
 </head>
+<style>
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    padding: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+input::placeholder {
+    color: #999;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.error-message {
+    font-size: 14px;
+    min-height: 20px;
+    margin-top: 4px;
+}
+
+button {
+    background: linear-gradient(to bottom, #4f46e5, #4338ca);
+    color: white;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    padding: 14px;
+}
+
+button:hover {
+    background: linear-gradient(to bottom, #4338ca, #3730a3);
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:focus {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+}
+
+#qrcode {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+#qrcode canvas {
+    max-width: 100%;
+    height: auto !important;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    background: white;
+}
+
+#result {
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 16px 0;
+    min-height: 24px;
+}
+
+.date-group {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: start;
+}
+
+.date-inputs {
+    display: flex;
+    gap: 12px;
+}
+
+.date-inputs input {
+    flex: 1;
+}
+
+select#calenderType {
+    width: auto;
+    min-width: 80px;
+}
+
+@media (max-width: 640px) {
+    .date-group {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    select#calenderType {
+        width: 100%;
+    }
+    
+    .date-inputs {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 641px) {
+    body {
+        padding: 32px;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+</style>
 <body>
 
 <label>Name:</label>
 <input type="text" id="name" placeholder="Enter Your Name" oninput="validateName()">
-<span id="errorName"></span><br><br>
+<span id="errorName"></span>
 
 <label>Last Name:</label>
 <input type="text" id="last" placeholder="Enter Your Last Name" oninput="validateLast()">
-<span id="errorLast"></span><br><br>
+<span id="errorLast"></span>
 
 <label>Gender:</label>
 <select id="Gender">
@@ -21,31 +194,32 @@
     <option value="Male">Male</option>
     <option value="Female">Female</option>
     <option value="Other">Other</option>
-</select><br><br>
+</select>
 
 <label>Date Of Birth:</label>
 <select id="calenderType" onchange="toggleCalender()">
     <option value="ad">AD</option>
     <option value="bs">BS</option>
-</select><br><br>
+</select>
 
 <input type="date" id="dobAD">
 <input type="text" id="dobBS" placeholder="YYYY-MM-DD (BS)" style="display:none;" oninput="formatBSDob(); validateBSDob();">
-<span id="errorDob"></span><br><br>
+<span id="errorDob"></span>
 
 <label>Age:</label>
 <input type="number" id="age" placeholder="Enter Your Age" oninput="ValidateAge()">
-<span id="errorAge"></span><br><br>
+<span id="errorAge"></span>
 
 <label>Phone Number:</label>
 <input type="text" id="Phonenumber" placeholder="98XXXXXXXX" oninput="validatePhoneNumber()">
-<span id="errorPhonenumber"></span><br><br>
+<span id="errorPhonenumber"></span>
 
 <button onclick="calculate()">Generate QR</button>
 <p id="result"></p>
 <div id="qrcode"></div>
 
 <script>
+    //datef birth check 
 function toggleCalender() {
     const type = document.getElementById("calenderType").value;
     const ad = document.getElementById("dobAD");
@@ -85,7 +259,7 @@ function validateBSDob() {
     error.innerText = "";
     return true;
 }
-
+//Date of birth in bs
 function formatBSDob() {
     let input = document.getElementById("dobBS");
     let value = input.value.replace(/[^0-9]/g, "");
@@ -98,7 +272,7 @@ function formatBSDob() {
 
     input.value = formatted;
 }
-
+//Name
 function validateName() {
     const name = document.getElementById("name").value.trim();
     const error = document.getElementById("errorName");
@@ -114,7 +288,7 @@ function validateName() {
         error.innerText = "";
     }
 }
-
+//Last Caste
 function validateLast() {
     const last = document.getElementById("last").value.trim();
     const error = document.getElementById("errorLast");
@@ -130,7 +304,7 @@ function validateLast() {
         error.innerText = "";
     }
 }
-
+//Age
 function ValidateAge() {
     const age = document.getElementById("age").value;
     const error = document.getElementById("errorAge");
@@ -142,7 +316,7 @@ function ValidateAge() {
         error.innerText = "";
     }
 }
-
+//Phone NUmber
 function validatePhoneNumber() {
     const phoneInput = document.getElementById("Phonenumber");
     const error = document.getElementById("errorPhonenumber");
