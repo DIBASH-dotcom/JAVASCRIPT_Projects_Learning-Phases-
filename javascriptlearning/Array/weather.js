@@ -2,58 +2,385 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <title>QR Generator</title>
 </head>
+<style>
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    padding: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+input::placeholder {
+    color: #999;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.error-message {
+    font-size: 14px;
+    min-height: 20px;
+    margin-top: 4px;
+}
+
+button {
+    background: linear-gradient(to bottom, #4f46e5, #4338ca);
+    color: white;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    padding: 14px;
+}
+
+button:hover {
+    background: linear-gradient(to bottom, #4338ca, #3730a3);
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button:focus {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+}
+
+#qrcode {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+#qrcode canvas {
+    max-width: 100%;
+    height: auto !important;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    background: white;
+}
+
+#result {
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 16px 0;
+    min-height: 24px;
+}
+
+.date-group {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: start;
+}
+
+.date-inputs {
+    display: flex;
+    gap: 12px;
+}
+
+.date-inputs input {
+    flex: 1;
+}
+
+select#calenderType {
+    width: auto;
+    min-width: 80px;
+}
+
+@media (max-width: 640px) {
+    .date-group {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    select#calenderType {
+        width: 100%;
+    }
+    
+    .date-inputs {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 641px) {
+    body {
+        padding: 32px;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+</style>
 <body>
-    <h1> Weather App</h1>
 
-    <label>ENTER A CITY NAME: </label>
-    <input type="text" id="name" placeholder="Enter a City Name">
+<label>Name:</label>
+<input type="text" id="name" placeholder="Enter Your Name" oninput="validateName()">
+<span id="errorName"></span>
 
-    <button onclick="Checker()">Check</button>
-    <p id="result"></p>
+<label>Last Name:</label>
+<input type="text" id="last" placeholder="Enter Your Last Name" oninput="validateLast()">
+<span id="errorLast"></span>
 
-    <script>
+<label>Gender:</label>
+<select id="Gender">
+    <option value=""></option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+    <option value="Other">Other</option>
+</select>
 
-        async function Checker() {
+<label>Date Of Birth:</label>
+<select id="calenderType" onchange="toggleCalender()">
+    <option value="ad">AD</option>
+    <option value="bs">BS</option>
+</select>
 
-            let city=document.getElementById("name").value;
-            let result=document.getElementById("result");
+<input type="date" id="dobAD">
+<input type="text" id="dobBS" placeholder="YYYY-MM-DD (BS)" style="display:none;" oninput="formatBSDob(); validateBSDob();">
+<span id="errorDob"></span>
 
+<label>Age:</label>
+<input type="number" id="age" placeholder="Enter Your Age" oninput="ValidateAge()">
+<span id="errorAge"></span>
 
-            if(city==="") {
-            result.innerHTML="Please Enter a City Name";
-            result.style.color="red";
-            return true;
+<label>Phone Number:</label>
+<input type="text" id="Phonenumber" placeholder="98XXXXXXXX" oninput="validatePhoneNumber()">
+<span id="errorPhonenumber"></span>
 
-            }
+<button onclick="calculate()">Generate QR</button>
+<p id="result"></p>
+<div id="qrcode"></div>
 
-            //upload a api 
+<script>
+    //datef birth check 
+function toggleCalender() {
+    const type = document.getElementById("calenderType").value;
+    const ad = document.getElementById("dobAD");
+    const bs = document.getElementById("dobBS");
+    document.getElementById("errorDob").innerText = "";
 
-            let api="d" ///enter your aPi Key 
+    if (type === "ad") {
+        ad.style.display = "inline-block";
+        bs.style.display = "none";
+        bs.value = "";
+    } else {
+        ad.style.display = "none";
+        bs.style.display = "inline-block";
+        ad.value = "";
+    }
+}
 
-             let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api}&units=metric`;
+function validateBSDob() {
+    const dob = document.getElementById("dobBS").value.trim();
+    const error = document.getElementById("errorDob");
 
+    // Simple BS format check: YYYY-MM-DD
+    const bsPattern = /^\d{4}-\d{2}-\d{2}$/;
 
-             try {
-                let response = await fetch(url);
-                if(!response.ok)  throw new Error("City Not Found");
-
-                let data = await response.json();
-
-               alert(`City: ${data.name}
-Temperature: ${data.main.temp}°C
-Weather: ${data.weather[0].description}`);
-
-             }
- catch(err) {
-       result.innerHTML = err.message;
-        result.style.color = "red";
+    if (dob === "") {
+        error.innerText = "Date of Birth is required";
+        error.style.color = "red";
+        return false;
     }
 
+    if (!bsPattern.test(dob)) {
+        error.innerText = "Invalid BS date format";
+        error.style.color = "red";
+        return false;
+    }
 
-        }
-    </script>
+    error.innerText = "";
+    return true;
+}
+//Date of birth in bs
+function formatBSDob() {
+    let input = document.getElementById("dobBS");
+    let value = input.value.replace(/[^0-9]/g, "");
+
+    if (value.length > 8) value = value.slice(0, 8);
+
+    let formatted = value.substring(0, 4);
+    if (value.length >= 5) formatted += "-" + value.substring(4, 6);
+    if (value.length >= 7) formatted += "-" + value.substring(6, 8);
+
+    input.value = formatted;
+}
+//Name
+function validateName() {
+    const name = document.getElementById("name").value.trim();
+    const error = document.getElementById("errorName");
+    const pattern = /^[A-Za-z\s]+$/;
+
+    if (name === "") {
+        error.innerText = "Name is required";
+        error.style.color = "red";
+    } else if (!pattern.test(name)) {
+        error.innerText = "Name must contain letters only";
+        error.style.color = "red";
+    } else {
+        error.innerText = "";
+    }
+}
+//Last Caste
+function validateLast() {
+    const last = document.getElementById("last").value.trim();
+    const error = document.getElementById("errorLast");
+    const pattern = /^[A-Za-z\s]+$/;
+
+    if (last === "") {
+        error.innerText = "Last Name is required";
+        error.style.color = "red";
+    } else if (!pattern.test(last)) {
+        error.innerText = "Last Name must contain letters only";
+        error.style.color = "red";
+    } else {
+        error.innerText = "";
+    }
+}
+//Age
+function ValidateAge() {
+    const age = document.getElementById("age").value;
+    const error = document.getElementById("errorAge");
+
+    if (age === "" || age <= 0 || age > 120) {
+        error.innerText = "Age must be between 1–120";
+        error.style.color = "red";
+    } else {
+        error.innerText = "";
+    }
+}
+//Phone NUmber
+function validatePhoneNumber() {
+    const phoneInput = document.getElementById("Phonenumber");
+    const error = document.getElementById("errorPhonenumber");
+
+    phoneInput.value = phoneInput.value.replace(/\D/g, '');
+    const phone = phoneInput.value;
+    const count = phone.length;
+
+    if (count === 0) {
+        error.innerText = "";
+        return;
+    }
+
+    if (count !== 10) {
+        error.innerText = `Entered number: ${count}`;
+        error.style.color = "red";
+    } else {
+        error.innerText = `Total number: ${count} - valid!`;
+        error.style.color = "green";
+    }
+}
+
+function calculate() {
+    const name = document.getElementById("name").value;
+    const last = document.getElementById("last").value;
+    const type = document.getElementById("calenderType").value;
+    const dob = type === "ad"
+        ? document.getElementById("dobAD").value
+        : document.getElementById("dobBS").value;
+
+    const age = document.getElementById("age").value;
+    const phone = document.getElementById("Phonenumber").value;
+    const Gender = document.getElementById("Gender").value;
+    const result = document.getElementById("result");
+    const qrcodeDiv= document.getElementById("qrcode");
+    qrcodeDiv.innerHTML = "";
+
+    let missing = [];
+    if (!name) missing.push("Name");
+    if (!last) missing.push("Last Name");
+    if (!dob) missing.push("Date Of Birth");
+    if (!age) missing.push("Age");
+    if (!phone) missing.push("Phone Number");
+    if (!Gender) missing.push("Gender");
+
+    if (missing.length > 0) {
+        result.innerHTML = "Fill these fields:<br>" + missing.join("<br>");
+        result.style.color = "red";
+        return;
+    }
+
+    const data = `Name: ${name}\nLast Name: ${last}\nGender: ${Gender}\nDate of Birth: ${dob}\nAge: ${age}\nPhone Number: ${phone}`;
+
+    result.innerText = "QR Generated!";
+    result.style.color = "green";
+
+    new QRCode(qrcodeDiv, {
+        text: data,
+        width: 200,
+        height: 200
+    });
+}
+</script>
+
 </body>
 </html>
+
