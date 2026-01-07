@@ -7,6 +7,8 @@ function showtext() {
 
     // show in console
     console.log(name);
+
+    //validation 
 if(name === "") {
     result.innerHTML="PLease enter name";
     return;
@@ -19,3 +21,4 @@ if(name === "") {
 
 
 }
+
