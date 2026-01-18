@@ -1,10 +1,11 @@
-let admitCard =true;
-let feePaid = true;
+let hardwareWorking =true;
+let softwareWorking =true;
 
-let examValid = admitCard && feePaid;
+let systemBoot = hardwareWorking && softwareWorking;
 
-if(examValid) {
-    console.log("Exam is valid");
-} else {
-    console.log("Exam is not valid");
+if(systemBoot) {
+    console.log("System is up and running!");
+
+}    else {
+    console.log("System failed to boot.");
 }
