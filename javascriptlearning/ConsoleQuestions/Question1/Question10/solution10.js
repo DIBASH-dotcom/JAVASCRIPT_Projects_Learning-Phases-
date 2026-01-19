@@ -38,3 +38,4 @@ switch (count) {
     default:
         console.log("Entry not allowed");
 }
+
