@@ -1,25 +1,27 @@
-let teachers=[true,true,true,true];
-let students=[true,true,true,true,true];
+let teachers = [true, true, true, true];
+let students = [true, true, true, true, true];
 
-teacherCount=0;
-StudentsCount=0;
-grounds= true;
-fisrtaid=true;
+let teacherCount = 0;
+let studentCount = 0;
+let grounds = true;
+let firstAid = true;
 
-for(let i=0; i<teachers.length; i++) {
-    if(teachers[i]===true)
-        teacherCount++;
+for (let i = 0; i < teachers.length; i++) {
+    if (teachers[i]) teacherCount++;
 }
-    for(let j=0; j<students.length; j++) {
-        if(students[j]===true) 
-            StudentsCount++;
-        
-    }
-let sportsevent= (teacherCount>=3) && (StudentsCount>=5) && grounds===true &&fisrtaid===true;
 
-if(sportsevent) {
+for (let j = 0; j < students.length; j++) {
+    if (students[j]) studentCount++;
+}
+
+let sportsEvent =
+    teacherCount >= 3 &&
+    studentCount >= 5 &&
+    grounds &&
+    firstAid;
+
+if (sportsEvent) {
     console.log("Sports Event Started");
 } else {
     console.log("Sports Event Canceled");
-
 }
