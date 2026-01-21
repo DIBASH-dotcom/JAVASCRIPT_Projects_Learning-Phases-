@@ -1,7 +1,8 @@
 let switchOn = false;
 
-if (switchOn === true) {
+if (switchOn) {
     console.log("The light is ON");
 } else {
     console.log("The light is OFF");
 }
+
