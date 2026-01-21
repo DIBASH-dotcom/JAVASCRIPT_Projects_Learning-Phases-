@@ -1,6 +1,7 @@
-let wifi= true;
-if(wifi=== true) {
-    console.log("works");
+let isWifiConnected = true;
+
+if (isWifiConnected) {
+    console.log("Internet works");
 } else {
-    console.log("Fail");
+    console.log("No internet");
 }
