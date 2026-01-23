@@ -1,8 +1,8 @@
-let doctorsPresent = true;
-let electricityAvailable = false;
+let studentsPresent = true;
+let teacherAvailable = false;
 
-if (doctorsPresent && electricityAvailable) {
-    console.log("Hospital is OPEN");
+if (studentsPresent && teacherAvailable) {
+    console.log("School is OPEN");
 } else {
-    console.log("Hospital is CLOSED");
+    console.log("School is CLOSED");
 }
