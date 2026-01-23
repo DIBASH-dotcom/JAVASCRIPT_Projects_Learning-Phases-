@@ -1,9 +1,10 @@
-let staffPresent = true;
-let stockAvailable = false;
+let computerPresent = true;
+let internetConnectionAvailable = false;
 
-if (staffPresent && stockAvailable) {
-    console.log("Shop is OPEN");
+if (computerPresent && internetConnectionAvailable ) {
+    console.log("cafe is OPEN");
 } else {
-    console.log("Shop is CLOSED");
+    console.log("cafe is CLOSED");
 }
+
 
