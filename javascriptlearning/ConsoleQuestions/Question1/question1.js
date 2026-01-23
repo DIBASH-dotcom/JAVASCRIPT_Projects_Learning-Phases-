@@ -1,8 +1,9 @@
-let studentsPresent = true;
-let teacherAvailable = false;
+let staffPresent = true;
+let stockAvailable = false;
 
-if (studentsPresent && teacherAvailable) {
-    console.log("School is OPEN");
+if (staffPresent && stockAvailable) {
+    console.log("Shop is OPEN");
 } else {
-    console.log("School is CLOSED");
+    console.log("Shop is CLOSED");
 }
+
