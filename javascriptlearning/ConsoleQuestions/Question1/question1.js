@@ -1,40 +1,58 @@
-// student names
-let students = ["Ram", "Sita", "Hari", "Gita"];
+let  viewersName=["Dibash Magar","Niraj Thapa","Nabin Karki","Dilip Khattri", "Rachhna Karki"];
+let  viewersPresent=[true,true,true,true,true];
 
-// attendance status (true = present, false = absent)
-let isPresent = [true, false, true, true];
+let viewersPresentCount=0;
 
-// count present students
-let count = 0;
-
-// 1️⃣ for loop: count present students
-for (let i = 0; i < isPresent.length; i++) {
-    if (isPresent[i] == true) {
-        count++;
+// count present  viewes
+for(let i=0; i<viewersName.length; i++) {
+    if(viewersPresent[i]) {
+        viewersPresentCount++;
     }
 }
 
-// 2️⃣ decision
-if (count >= 3) {
-    console.log("Class Open");
+//decsion
+
+if(viewersPresentCount>=4) {
+    console.log("movie starts")
 } else {
-    console.log("Class Closed");
+    console.log("insuffecient viwers");
 }
 
-// 3️⃣ while loop: print each student status
-let index = 0;
-while (index < students.length) {
-    if (isPresent[index] == true) {
-        console.log(students[index] + " is present");
-    } else {
-        console.log(students[index] + " is absent");
-    }
-    index++;
-}
+// print the viwers status present or absent
 
-// 4️⃣ do-while loop: check message
-let j = 0;
-do {
-    console.log("Checked attendance for " + students[j]);
-    j++;
-} while (j < students.length);
+let statusOfViewer= 0;
+ while(statusOfViewer<viewersName.length) {
+    console.log(viewersName[statusOfViewer]+"is"+(viewersPresent[statusOfViewer]? "Present" : "Absent"))
+    statusOfViewer++;
+ }
+
+ // check confirmation message
+
+ let viewersConfirmation=0;
+
+ do{
+    console.log("Checked Confirmation for" +viewersPresent[viewersConfirmation]);
+ }
+ while(viewersConfirmation<viewersName.length);
+
+ // switch condition 
+
+ switch(viewersPresentCount) {
+    case 5:
+        console.log("HouseFull");
+        break;
+
+        case 4:
+            console.log("maximum");
+            break;
+
+            case 3:
+                case 2:
+                console.log("minimum")
+                break;
+
+                default :
+                    console.log("not allwoed ")
+                
+
+ }
