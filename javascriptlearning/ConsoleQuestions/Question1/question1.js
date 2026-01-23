@@ -1,10 +1,9 @@
-let computerPresent = true;
-let internetConnectionAvailable = false;
+let organizerPresent = true;
+let venueAvailable = false;
+let onlineStreaming = false;
 
-if (computerPresent && internetConnectionAvailable ) {
-    console.log("cafe is OPEN");
+if ((organizerPresent && venueAvailable) || onlineStreaming) {
+    console.log("Event STARTS");
 } else {
-    console.log("cafe is CLOSED");
+    console.log("Event is CLOSED");
 }
-
-
