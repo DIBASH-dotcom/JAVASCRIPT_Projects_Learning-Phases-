@@ -1,2 +1,8 @@
-let age = 18;
-console.log("My Age is " + age);
+let doctorsPresent = true;
+let electricityAvailable = false;
+
+if (doctorsPresent && electricityAvailable) {
+    console.log("Hospital is OPEN");
+} else {
+    console.log("Hospital is CLOSED");
+}
