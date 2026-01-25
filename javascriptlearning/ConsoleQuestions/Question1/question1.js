@@ -1,9 +1,9 @@
-let orderCompleted = true; 
-let productAvailable = true;  
-let productDeliver = false;
+let roomOccupied = true; 
+let lightOn = true;  
+let visibility = false;
 
-if (orderCompleted && productAvailable) {  
-    productDeliver = true;
+if (roomOccupied && lightOn) {
+    visibility = true;
 }
 
-console.log("Delivery Possible:", productDeliver);
+console.log("Visibility On:", visibility);
