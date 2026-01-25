@@ -1,7 +1,9 @@
-let studentsPresent = true; 
+let DoctorPresent = true; 
+let chairAvailable = true;  
+
 let classStarted = false;
 
-if (studentsPresent) {
+if (teacherPresent && chairAvailable) {  
     classStarted = true;
 }
 
