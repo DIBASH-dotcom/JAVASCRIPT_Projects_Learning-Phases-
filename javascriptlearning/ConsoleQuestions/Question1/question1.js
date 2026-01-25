@@ -1,10 +1,10 @@
 let DoctorPresent = true; 
-let chairAvailable = true;  
+let patientAvailable = true;  
 
-let classStarted = false;
+let CheckupAvaivalble = false;
 
-if (teacherPresent && chairAvailable) {  
-    classStarted = true;
+if (DoctorPresent && patientAvailable) {  
+ CheckupAvaivalble = true;
 }
 
-console.log("Class started:", classStarted);
+console.log("Checkup started:", CheckupAvaivalble);
