@@ -1,10 +1,9 @@
-let DoctorPresent = true; 
-let patientAvailable = true;  
+let orderCompleted = true; 
+let productAvailable = true;  
+let productDeliver = false;
 
-let CheckupAvaivalble = false;
-
-if (DoctorPresent && patientAvailable) {  
- CheckupAvaivalble = true;
+if (orderCompleted && productAvailable) {  
+    productDeliver = true;
 }
 
-console.log("Checkup started:", CheckupAvaivalble);
+console.log("Delivery Possible:", productDeliver);
