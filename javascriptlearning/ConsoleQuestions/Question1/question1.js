@@ -1,5 +1,5 @@
-function createHelloWorld() {
-    return function () {
-        return "Hello World";
+function createCounter(n) {
+    return function() {
+        return n++;
     };
 }
